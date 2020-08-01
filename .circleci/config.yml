@@ -1,0 +1,80 @@
+version: 2.1
+
+orbs:
+  ruby: circleci/ruby@1.0
+  node: circleci/node@2
+
+jobs:
+  build:
+    docker:
+      - image: cimg/ruby:2.7-node
+    steps:
+      - checkout
+      - ruby/install-deps
+      # Store bundle cache
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
+  test:
+    parallelism: 3
+    docker:
+      - image: cimg/ruby:2.7-node
+        environment:
+          BUNDLE_JOBS: "3"
+          BUNDLE_RETRY: "3"
+          BUNDLE_PATH: vendor/bundle
+          DATABASE_URL: "mysql2://root:password@127.0.0.1/circle_test"
+          RAILS_ENV: test
+      - image: circleci/mysql:8
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+          MYSQL_ROOT_PASSWORD: password
+    steps:
+      - checkout
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run:
+          name: Database setup
+          command: bundle exec rails db:schema:load --trace
+      # Run rspec in parallel
+      - ruby/rspec-test
+      - run:
+          name: run rubocop checking
+          command: bundle exec rubocop
+
+  heroku_deploy:
+    docker:
+      - image: sue445/heroku-cli
+    steps:
+      - checkout
+      - run:
+          name: Define HEROKU_APP_NAME
+          command: echo "export HEROKU_APP_NAME=classical_music_player_$CIRCLE_BRANCH" >> $BASH_ENV
+      - run:
+          name: Create Heroku app
+          command: heroku apps:create $HEROKU_APP_NAME --addons=jawsdb:kitefin
+      - run:
+          name: Deploy
+          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+      - run:
+          name: Run post-deploy tasks
+          command: |
+            JAWSDB_URL=`heroku config:get JAWSDB_URL`
+            heroku config:set DATABASE_URL=${JAWSDB_URL/mysql/mysql2}
+            heroku run bin/rails db:migrate
+
+workflows:
+  version: 2.1
+  build:
+    jobs:
+      - build
+      - test
+      - heroku_deploy:
+          requires:
+            - build
+            - test
