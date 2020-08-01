@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   ruby: circleci/ruby@1.0
   node: circleci/node@2
+  browser-tools: circleci/browser-tools@1.0.1
 
 jobs:
   build:
@@ -35,6 +36,10 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
+
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
