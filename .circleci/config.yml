@@ -57,7 +57,7 @@ jobs:
       - run:
           name: Create Heroku app
           command: |
-            if [ `heroku apps --json | jq ".[].name | select(. == \"$HEROKU_APP_NAME\")"` ];
+            if [ `heroku apps --json | jq ".[].name | select(. == \"$HEROKU_APP_NAME\")"` ]; then
             heroku apps:create $HEROKU_APP_NAME --addons=jawsdb:kitefin; fi
       - run:
           name: Set Environment Variables
