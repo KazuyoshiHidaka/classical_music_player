@@ -62,7 +62,7 @@ jobs:
       - run:
           name: Set Environment Variables
           command: |
-            JAWSDB_URL=`heroku config:get JAWSDB_URL`; heroku config:set -a $HEROKU_APP_NAME \
+            JAWSDB_URL=`heroku config:get -a $HEROKU_APP_NAME JAWSDB_URL`; heroku config:set -a $HEROKU_APP_NAME \
             DATABASE_URL=${JAWSDB_URL/mysql/mysql2}
       - run:
           name: Deploy
