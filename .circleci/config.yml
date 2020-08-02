@@ -60,13 +60,16 @@ jobs:
             if [ ! `heroku apps --json | jq ".[].name | select(. == \"$HEROKU_APP_NAME\")"` ]; then
             heroku apps:create $HEROKU_APP_NAME --addons=jawsdb:kitefin; fi
       - run:
+          name: Set Heroku App
+          command: heroku git:remote $HEROKU_APP_NAME
+      - run:
           name: Set Environment Variables
           command: |
-            JAWSDB_URL=`heroku config:get -a $HEROKU_APP_NAME JAWSDB_URL`; heroku config:set -a $HEROKU_APP_NAME \
+            JAWSDB_URL=`heroku config:get JAWSDB_URL`; heroku config:set \
             DATABASE_URL=${JAWSDB_URL/mysql/mysql2}
       - run:
           name: Deploy
-          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+          command: git push heroku master
       - run:
           name: Run post-deploy tasks
           command: |
