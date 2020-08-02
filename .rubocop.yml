@@ -10,3 +10,7 @@ Metrics/LineLength:
 Airbnb/SimpleModifierConditional:
   Exclude:
     - bin/bundle
+
+Rails/Present:
+  Exclude:
+    - bin/bundle
