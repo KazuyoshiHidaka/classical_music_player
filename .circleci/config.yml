@@ -4,6 +4,7 @@ orbs:
   ruby: circleci/ruby@1.0
   node: circleci/node@2
   browser-tools: circleci/browser-tools@1.0.1
+  jq: circleci/jq@2.2.0
 
 jobs:
   test:
@@ -47,12 +48,15 @@ jobs:
       - image: sue445/heroku-cli
     steps:
       - checkout
+      - jq/install
       - run:
           name: Define HEROKU_APP_NAME
           command: echo "export HEROKU_APP_NAME=classicalmusicplayer-$CIRCLE_BRANCH" >> $BASH_ENV
       - run:
           name: Create Heroku app
-          command: heroku apps:create $HEROKU_APP_NAME --addons=jawsdb:kitefin
+          command: |
+            if [ `heroku apps --json | jq ".[].name | select(. == \"$HEROKU_APP_NAME\")"` ];
+            heroku apps:create $HEROKU_APP_NAME --addons=jawsdb:kitefin; fi
       - run:
           name: Set Environment Variables
           command: |
@@ -64,7 +68,7 @@ jobs:
       - run:
           name: Run post-deploy tasks
           command: |
-            heroku run bin/rails db:migrate
+            heroku run bundle exec rails db:migrate
 
 workflows:
   version: 2.1
