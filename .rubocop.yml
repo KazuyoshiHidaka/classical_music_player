@@ -6,6 +6,7 @@ Metrics/LineLength:
     - bin/bundle
     - config/initializers/backtrace_silencers.rb
     - config/initializers/content_security_policy.rb
+    - db/schema.rb
 
 Airbnb/SimpleModifierConditional:
   Exclude:
