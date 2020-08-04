@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "Musics", type: :request do
+RSpec.describe "Songs", type: :request do
   describe "#index" do
-    before { get musics_path }
+    before { get songs_path }
 
     it "200レスポンスを返す" do
       expect(response).to have_http_status 200
@@ -10,7 +10,7 @@ RSpec.describe "Musics", type: :request do
   end
 
   describe "#search" do
-    before { get search_musics_path }
+    before { get search_songs_path }
 
     it "200レスポンスを返す" do
       expect(response).to have_http_status 200
