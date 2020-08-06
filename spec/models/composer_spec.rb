@@ -1,41 +1,58 @@
 require 'rails_helper'
 
 RSpec.describe Composer, type: :model do
-  let(:composer) { create(:composer) }
+  describe "Association" do
+    let(:composer) { create(:composer) }
+    let(:composition) { create(:composition) }
+    let!(:song_list) do
+      create_list(:song, 2,
+                  composer_id: composer.id,
+                  composition_id: composition.id)
+    end
+
+    it "compositionが重複せず取得できる" do
+      expect(composer.compositions).to match_array composer.compositions.distinct
+    end
+
+    it "songsが取得できる" do
+      expect(composer.songs).to match_array song_list
+    end
+  end
 
   describe "Validation" do
-    subject { composer_invalid.valid? }
+    subject { composer.valid? }
+
+    shared_examples '有効になる' do
+      it { is_expected.to be true }
+    end
+
+    shared_examples '無効になる' do
+      it { is_expected.to be false }
+    end
 
     context "nameがnilの場合" do
-      let(:composer_invalid) { build(:composer, name: nil) }
+      let(:composer) { build(:composer, name: nil) }
 
-      it "無効になる" do
-        is_expected.to be false
-      end
+      it_behaves_like "無効になる"
     end
 
     context "nameが空白の場合" do
-      let(:composer_invalid) { build(:composer, name: '') }
+      let(:composer) { build(:composer, name: '') }
 
-      it "無効になる" do
-        is_expected.to be false
-      end
+      it_behaves_like "無効になる"
     end
 
     context "nameが重複する場合" do
-      let(:composer_invalid) { build(:composer, name: composer.name) }
+      let(:composer_valid) { create(:composer) }
+      let(:composer) { build(:composer, name: composer_valid.name) }
 
-      it "無効になる" do
-        is_expected.to be false
-      end
+      it_behaves_like "無効になる"
     end
 
     context "正常な値のみの場合" do
-      let(:composer_valid) { build(:composer) }
+      let(:composer) { build(:composer) }
 
-      it "有効になる" do
-        expect(composer_valid.valid?).to be true
-      end
+      it_behaves_like "有効になる"
     end
   end
 end
