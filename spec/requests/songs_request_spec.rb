@@ -20,7 +20,8 @@ RSpec.describe "Songs", type: :request do
     end
 
     it "#get_videosは1回だけ呼ばれる" do
-      expect_any_instance_of(SongsController).to receive(:get_videos).once
+      expect_any_instance_of(SongsController).to receive(:get_videos).once.
+        and_return(Apis::Youtube.new.hash_mock_response_search_videos)
       get song_path(song.id)
     end
   end

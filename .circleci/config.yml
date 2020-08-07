@@ -67,6 +67,7 @@ jobs:
           command: |
             JAWSDB_URL=`heroku config:get JAWSDB_URL`; heroku config:set \
             DATABASE_URL=${JAWSDB_URL/mysql/mysql2}
+            YOUTUBE_API_KEY=$YOUTUBE_API_KEY
       - run:
           name: Deploy
           command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
@@ -74,6 +75,7 @@ jobs:
           name: Run post-deploy tasks
           command: |
             heroku run bundle exec rails db:migrate
+            bundle exec rails db:seed
 
 workflows:
   version: 2.1
