@@ -115,14 +115,12 @@ RSpec.describe Song, type: :model do
         it "有効になる" do
           aggregate_failures "複合キーの組み合わせの中に、別の一意制約のキーが入っていない" do
             songs = [
-              # rubocop:disable Metrics/LineLength
               ["song_dup_composer",            build(:song, composer_id: song.composer_id)],
               ["song_dup_opus",                build(:song, opus: song.opus)],
               ["song_dup_number",              build(:song, number: song.number)],
-              ["song_dup_composer_and_opus",   build(:song, composer_id: song.composer_id, opus: song.opus)],
-              ["song_dup_composer_and_number", build(:song, composer_id: song.composer_id, number: song.number)],
+              ["song_dup_composer_and_opus",   build(:song, composer_id: song.composer_id, opus: song.opus)], # rubocop:disable LineLength
+              ["song_dup_composer_and_number", build(:song, composer_id: song.composer_id, number: song.number)], # rubocop:disable LineLength
               ["song_dup_opus_and_number",     build(:song, opus: song.opus, number: song.number)],
-              # rubocop:enable Metrics/LineLength
             ]
             songs.each do |type, song|
               expect(song.valid?).to be(true), "無効になったsongの種類: #{type}"
@@ -136,6 +134,53 @@ RSpec.describe Song, type: :model do
       let(:song) { build(:song) }
 
       it_behaves_like '有効になる'
+    end
+  end
+
+  describe "Instance Methods" do
+    describe "#query_to_search_youtube" do
+      subject { song.query_to_search_youtube }
+
+      let(:composer) { song.composer }
+      let(:composition) { song.composition }
+
+      context "opusがposthumousの場合" do
+        let(:song) { create(:song, :posthumous) }
+
+        it "値はcomposer composition posthumous numberとなる" do
+          is_expected.to eq "#{composer.name} #{composition.name} #{song.opus} #{song.number}"
+        end
+      end
+
+      context "opusがposthumous以外の場合" do
+        context "numberがnilの場合" do
+          let(:song) { create(:song, :no_number) }
+
+          it "値はcomposer composition op opusとなる" do
+            is_expected.to eq "#{composer.name} #{composition.name} op #{song.opus}"
+          end
+        end
+
+        context "numberがnil以外の場合" do
+          let(:song) { create(:song) }
+
+          it "値はcomposer composition op opus no numberとなる" do
+            is_expected.to eq(
+              "#{composer.name} #{composition.name} op #{song.opus} no #{song.number}"
+            )
+          end
+        end
+      end
+
+      context "alt_nameがnil以外の場合" do
+        let(:song) { create(:song, :alt_name) }
+
+        it "値はcomposer composition op opus no number alt_nameとなる" do
+          is_expected.to eq(
+            "#{composer.name} #{composition.name} op #{song.opus} no #{song.number} #{song.alt_name}" # rubocop:disable Metrics/LineLength
+          )
+        end
+      end
     end
   end
 end
