@@ -11,7 +11,7 @@ module Apis
     def search_videos(**options)
       opt = {
         type: 'video',
-        max_results: 20,
+        max_results: 10,
       }.merge(options)
       get_service.list_searches(:snippet, opt)
     end
