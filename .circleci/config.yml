@@ -53,7 +53,7 @@ jobs:
       - jq/install
       - run:
           name: Define HEROKU_APP_NAME
-          command: echo "export HEROKU_APP_NAME=classicalmusicplayer-${CIRCLE_BRANCH//_/-}" >> $BASH_ENV
+          command: echo "export HEROKU_APP_NAME=cmp-${CIRCLE_BRANCH//_/-}" >> $BASH_ENV
       - run:
           name: Create Heroku app
           command: |
