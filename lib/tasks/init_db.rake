@@ -3,10 +3,16 @@ namespace :init_db do
   task setup: :environment do
     raise 'Not allowed to run on production' if Rails.env.production?
     create_db unless databases_exists?
+    setup_db
   end
 
   def create_db
     system 'bundle exec rails db:create'
+  end
+
+  def setup_db
+    system 'bundle exec rails db:schema:load'
+    system 'bundle exec rails db:seed'
   end
 
   def databases_exists?

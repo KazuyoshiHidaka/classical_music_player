@@ -53,7 +53,7 @@ jobs:
       - jq/install
       - run:
           name: Define HEROKU_APP_NAME
-          command: echo "export HEROKU_APP_NAME=classicalmusicplayer-$CIRCLE_BRANCH" >> $BASH_ENV
+          command: echo "export HEROKU_APP_NAME=cmp-${CIRCLE_BRANCH//_/-}" >> $BASH_ENV
       - run:
           name: Create Heroku app
           command: |
@@ -66,7 +66,8 @@ jobs:
           name: Set Environment Variables
           command: |
             JAWSDB_URL=`heroku config:get JAWSDB_URL`; heroku config:set \
-            DATABASE_URL=${JAWSDB_URL/mysql/mysql2}
+            DATABASE_URL=${JAWSDB_URL/mysql/mysql2} \
+            YOUTUBE_API_KEY=$YOUTUBE_API_KEY
       - run:
           name: Deploy
           command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
@@ -74,6 +75,7 @@ jobs:
           name: Run post-deploy tasks
           command: |
             heroku run bundle exec rails db:migrate
+            heroku run bundle exec rails db:seed
 
 workflows:
   version: 2.1
