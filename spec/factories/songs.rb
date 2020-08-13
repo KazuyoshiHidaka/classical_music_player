@@ -4,7 +4,7 @@ FactoryBot.define do
     association :composition
     sequence(:opus) { |n| n }
     sequence(:number) { |n| n }
-    key { "A minor" }
+    key { "a minor" }
 
     trait :posthumous do
       opus { "posthumous" }

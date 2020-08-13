@@ -15,7 +15,7 @@ module CustomData
             composition_id: composition.id,
             opus: json_song[:opus],
             number: json_song[:number],
-            key: json_song[:key],
+            key: json_song[:key].downcase,
             alt_name: json_song[:alt_name]&.downcase
           )
         end
