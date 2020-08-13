@@ -18,6 +18,7 @@ class Song < ApplicationRecord
   validates_uniqueness_of :opus, case_sensitive: true,
                                  scope: %i(composer_id number),
                                  message: "複合キー[composer_id opus number]はuniqueness"
+  validates :key, presence: true
 
   def query_to_search_youtube
     words = [composer.name, composition.name]

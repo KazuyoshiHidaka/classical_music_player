@@ -130,6 +130,20 @@ RSpec.describe Song, type: :model do
       end
     end
 
+    describe "key:string" do
+      context "nilの場合" do
+        let(:song) { build(:song, key: nil) }
+
+        it_behaves_like '無効になる'
+      end
+
+      context "空文字の場合" do
+        let(:song) { build(:song, key: '') }
+
+        it_behaves_like '無効になる'
+      end
+    end
+
     context "有効な値のみの場合" do
       let(:song) { build(:song) }
 
