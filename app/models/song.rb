@@ -33,4 +33,23 @@ class Song < ApplicationRecord
 
     words.compact.join(" ")
   end
+
+  def title
+    opus_word = "op."
+    if opus == 'posthumous'
+      opus_word << 'posth.'
+    else
+      opus_word << opus
+    end
+
+    number_word = number ? "no.#{number}" : nil
+
+    words = [
+      opus_word,
+      number_word,
+      key.capitalize,
+      alt_name&.titleize,
+    ]
+    words.compact.join(', ')
+  end
 end

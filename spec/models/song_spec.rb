@@ -196,5 +196,35 @@ RSpec.describe Song, type: :model do
         end
       end
     end
+
+    describe "#title" do
+      subject { song.title }
+
+      context "opusがposthumous" do
+        let(:song) { create(:song, :posthumous) }
+
+        it "'op.posth.'になる" do
+          is_expected.to eq "op.posth., no.#{song.number}, #{song.key.capitalize}"
+        end
+      end
+
+      context "numberがnilの場合" do
+        let(:song) { create(:song, :no_number) }
+
+        it "no.\#{number} が省略される" do
+          is_expected.to eq "op.#{song.opus}, #{song.key.capitalize}"
+        end
+      end
+
+      context "alt_nameに値を与えた場合" do
+        let(:song) { create(:song, :alt_name) }
+
+        it "keyの後ろに ', alt_name'が加わる" do
+          is_expected.to(eq(
+            "op.#{song.opus}, no.#{song.number}, #{song.key.capitalize}, #{song.alt_name.titleize}"
+          ))
+        end
+      end
+    end
   end
 end

@@ -9,6 +9,26 @@ $enable-gradients: true;
 $enable-deprecation-messages: true;
 @import 'bootstrap/scss/bootstrap';
 
-i {
-  font-size: 24px;
+@each $key, $color in $colors {
+  .border-left-#{$key} {
+    border-left-color: $color;
+  }
+}
+
+.border-left-thick {
+  border-left-width: thick;
+}
+
+#allSongsList {
+  a[data-toggle='collapse']::before {
+    font-family: 'Font Awesome 5 Free';
+    content: '\f068';
+    font-size: 0.6rem;
+    font-weight: 900;
+    padding-right: 0.25rem;
+    vertical-align: 0.1rem;
+  }
+  a.collapsed[data-toggle='collapse']::before {
+    content: '\f067';
+  }
 }

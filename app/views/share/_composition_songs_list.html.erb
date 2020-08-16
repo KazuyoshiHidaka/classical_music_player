@@ -1,0 +1,42 @@
+<% Composition.all.each do |composition| %>
+  <% composition_collapse_id = 
+      sidebar_collapse_id(
+        parent_id: composition.id, is_parent_composition: true
+      ) 
+  %>
+  <a class="list-group-item list-group-item-action border-left-thick
+            border-left-green rounded-left mb-1 collapsed"
+     data-toggle="collapse" href="#<%= composition_collapse_id %>"
+     role="button" aria-expanded="false"
+     aria-controls="<%= composition_collapse_id %>"
+  >
+    <%= composition.name.titleize %>
+  </a>
+  <div class="collapse mt-1 mb-4 ml-2" id="<%= composition_collapse_id %>">
+    <% composition.composers.each do |composer| %>
+      <% composer_collapse_id = 
+          sidebar_collapse_id(
+            parent_id: composition.id, child_id: composer.id,
+            is_parent_composition: true
+          ) 
+      %>
+      <a class="list-group-item list-group-item-action border-left-thick
+                border-left-cyan rounded-left mb-1 collapsed"
+         data-toggle="collapse" href="#<%= composer_collapse_id %>"
+         role="button" aria-expanded="false"
+         aria-controls="<%= composer_collapse_id %>"
+      >
+        <%= composer.name.titleize %>
+      </a>
+      <div class="collapse mt-1 mb-4 ml-2" id="<%= composer_collapse_id %>">
+        <% composition.songs.where(composer_id: composer.id).each do |song| %>
+          <%= link_to song_path(song.id),
+                      class: "list-group-item list-group-item-action 
+                              border-left-thick" do %>
+            <%= song.title %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

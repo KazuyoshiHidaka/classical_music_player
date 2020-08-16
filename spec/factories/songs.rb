@@ -15,7 +15,7 @@ FactoryBot.define do
     end
 
     trait :alt_name do
-      alt_name { "Winter Wind" }
+      alt_name { "winter wind" }
     end
   end
 end
