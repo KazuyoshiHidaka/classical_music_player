@@ -1,8 +1,32 @@
-<div class="container">
-  <% @videos[:items].each_with_index do |item, i| %>
-    <% id = item.dig(:id, :video_id) %>
-    <div class="my-5 embed-responsive embed-responsive-16by9">
-      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= id %>" allowfullscreen></iframe>
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div class="d-none d-md-block col-md-5 col-lg-4 col-xl-3 position-fixed h-100 overflow-auto">
+      <%= render 'share/all_songs_list', selected_song: @song %>
     </div>
-  <% end %>
+    <div class="col-12 col-md-7 col-lg-5 col-xl-4 offset-md-5 offset-lg-4 offset-xl-4">
+      <div>
+        <button type="button" class="btn btn-outline-primary d-md-none" data-toggle="modal" data-target="#songsListModal">
+          曲を探す
+        </button>
+        <button type="button" class="btn btn-outline-primary d-lg-none" data-toggle="modal" data-target="#settingsModal">
+          設定
+        </button>
+      </div>
+      <%= render partial: 'youtube_videos_list',
+                 collection: @videos[:items],
+                 as: :item
+      %>
+    </div>
+    <div class="d-none d-lg-block col-lg-3 col-xl-3 position-fixed h-100 overflow-auto" style="right: 0;">
+      <div class="sticky-top">
+        <%= render 'share/user_settings_list' %>
+      </div>
+    </div>
+  </div>
 </div>
+<%= render 'share/modal_base', id: "settingsModal", title: "ユーザー設定" do %>
+  <%= render 'share/user_settings_list' %>
+<% end %>
+<%= render 'share/modal_base', id: "songsListModal", title: "曲を探す" do %>
+  <%= render 'share/all_songs_list', selected_song: @song %>
+<% end %>

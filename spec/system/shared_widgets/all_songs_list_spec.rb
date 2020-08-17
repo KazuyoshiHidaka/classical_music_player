@@ -2,12 +2,9 @@ RSpec.configure do |config|
   config.include ApplicationHelper, type: :system
 end
 
-RSpec.shared_examples "SharedWidgets::AllSongsList", type: :system do
+RSpec.shared_examples "SharedWidgets::AllSongsList" do
   let(:composer) { song.composer }
   let(:composition) { song.composition }
-  let!(:song) { create(:song) }
-
-  before { visit current_path }
 
   describe "composer_songs_list" do
     def click_composer_tab
