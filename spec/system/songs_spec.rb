@@ -24,6 +24,8 @@ RSpec.describe "Songs", type: :system do
 
     describe "レスポンシブ対応のテスト" do
       shared_examples "モーダルで表示されているか" do |widget_name, target_id|
+        let(:in_modal) { true }
+
         before do
           button = page.find "[data-toggle='modal'][data-target='##{target_id}']"
           button.click

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
-  describe "#sidebar_collapse_id" do
+  describe "#songs_list_collapse_id" do
     subject do
-      helper.sidebar_collapse_id(**attributes)
+      helper.songs_list_collapse_id(**attributes)
     end
 
     describe "エラーチェック" do
@@ -90,7 +90,7 @@ RSpec.describe ApplicationHelper, type: :helper do
           include_context "parent_idのみ"
 
           it "期待する文字列が返る" do
-            is_expected.to eq "sidebarCollapseComposer#{parent_id}"
+            is_expected.to eq "songsListCollapseComposer#{parent_id}"
           end
         end
 
@@ -98,7 +98,7 @@ RSpec.describe ApplicationHelper, type: :helper do
           include_context "parent_idとchild_id"
 
           it "期待する文字列が返る" do
-            is_expected.to eq "sidebarCollapseComposer#{parent_id}Composition#{child_id}"
+            is_expected.to eq "songsListCollapseComposer#{parent_id}Composition#{child_id}"
           end
         end
       end
@@ -110,7 +110,7 @@ RSpec.describe ApplicationHelper, type: :helper do
           include_context "parent_idのみ"
 
           it "期待する文字列が返る" do
-            is_expected.to eq "sidebarCollapseComposition#{parent_id}"
+            is_expected.to eq "songsListCollapseComposition#{parent_id}"
           end
         end
 
@@ -118,7 +118,7 @@ RSpec.describe ApplicationHelper, type: :helper do
           include_context "parent_idとchild_id"
 
           it "期待する文字列が返る" do
-            is_expected.to eq "sidebarCollapseComposition#{parent_id}Composer#{child_id}"
+            is_expected.to eq "songsListCollapseComposition#{parent_id}Composer#{child_id}"
           end
         end
       end

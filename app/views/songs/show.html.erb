@@ -1,14 +1,18 @@
 <div class="container-fluid mt-3">
   <div class="row">
-    <div class="d-none d-md-block col-md-5 col-lg-4 col-xl-3 position-fixed h-100 overflow-auto">
-      <%= render 'share/all_songs_list', selected_song: @song %>
+    <div id="songsListContainer" 
+         class="d-none d-md-block col-md-5 col-lg-4 col-xl-3
+                position-fixed h-100 overflow-auto">
+      <%= render 'share/all_songs_list', selected_song: @song, parent: @songs_list_parent %>
     </div>
     <div class="col-12 col-md-7 col-lg-5 col-xl-4 offset-md-5 offset-lg-4 offset-xl-4">
       <div>
-        <button type="button" class="btn btn-outline-primary d-md-none" data-toggle="modal" data-target="#songsListModal">
+        <button type="button" class="btn btn-outline-primary d-md-none"
+                data-toggle="modal" data-target="#songsListModal">
           曲を探す
         </button>
-        <button type="button" class="btn btn-outline-primary d-lg-none" data-toggle="modal" data-target="#settingsModal">
+        <button type="button" class="btn btn-outline-primary d-lg-none"
+                data-toggle="modal" data-target="#settingsModal">
           設定
         </button>
       </div>
@@ -28,5 +32,5 @@
   <%= render 'share/user_settings_list' %>
 <% end %>
 <%= render 'share/modal_base', id: "songsListModal", title: "曲を探す" do %>
-  <%= render 'share/all_songs_list', selected_song: @song %>
+  <%= render 'share/all_songs_list', selected_song: @song, parent: @songs_list_parent %>
 <% end %>

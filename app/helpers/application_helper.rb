@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def sidebar_collapse_id(
+  def songs_list_collapse_id(
     parent_id:, child_id: nil,
     is_parent_composer: nil,
     is_parent_composition: nil
@@ -12,7 +12,7 @@ module ApplicationHelper
       raise ArgumentError, "is_parent_composerとis_parent_compositionは、どちらか1つだけをtrueにしてください"
     end
 
-    id = "sidebarCollapse"
+    id = "songsListCollapse"
     if is_parent_composer
       id << "Composer#{parent_id}"
       id << "Composition#{child_id}" if child_id
