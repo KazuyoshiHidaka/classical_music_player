@@ -191,7 +191,7 @@ RSpec.describe Song, type: :model do
 
         it "値はcomposer composition op opus no number alt_nameとなる" do
           is_expected.to eq(
-            "#{composer.name} #{composition.name} op #{song.opus} no #{song.number} #{song.alt_name}" # rubocop:disable Metrics/LineLength
+            "#{composer.name} #{composition.name} op #{song.opus} no #{song.number} #{song.alt_name}"
           )
         end
       end
@@ -223,6 +223,64 @@ RSpec.describe Song, type: :model do
           is_expected.to(eq(
             "op.#{song.opus}, no.#{song.number}, #{song.key.capitalize}, #{song.alt_name.titleize}"
           ))
+        end
+      end
+    end
+
+    describe "#title_with" do
+      subject do
+        song.title_with(composer: with_composer, composition: with_composition)
+      end
+
+      let(:song) { create(:song) }
+
+      context "引数を指定しなかった場合" do
+        it "ArgumentErrorが発生する" do
+          expect { song.title_with }.to raise_error ArgumentError
+        end
+      end
+
+      context "with_composer: false, with_composition: false" do
+        let(:with_composer) { false }
+        let(:with_composition) { false }
+
+        it "ArgumentErrorが発生する" do
+          expect { subject }.to raise_error ArgumentError
+        end
+      end
+
+      context "with_composer: trueの場合" do
+        let(:with_composer) { true }
+        let(:with_composition) { false }
+
+        it "'composerの名前 songのタイトル'を返す" do
+          is_expected.to eq(
+            "#{song.composer.name.titleize} #{song.title}"
+          )
+        end
+      end
+
+      context "with_composition: trueの場合" do
+        let(:with_composer) { false }
+        let(:with_composition) { true }
+
+        it "'compositionの名前 songのタイトル'を返す" do
+          is_expected.to eq(
+            "#{song.composition.name.titleize} #{song.title}"
+          )
+        end
+      end
+
+      context "with_composer: true, with_composition: trueの場合" do
+        let(:with_composer) { true }
+        let(:with_composition) { true }
+
+        it "'composerの名前 compositionの名前 songのタイトル'を返す" do
+          is_expected.to eq(
+            "#{song.composer.name.titleize} " \
+            "#{song.composition.name.titleize} " +
+            song.title
+          )
         end
       end
     end

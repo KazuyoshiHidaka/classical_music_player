@@ -52,4 +52,17 @@ class Song < ApplicationRecord
     ]
     words.compact.join(', ')
   end
+
+  def title_with(composer: false, composition: false)
+    if !composer && !composition
+      raise ArgumentError,
+            "代わりにSong#titleメソッドを使用してください"
+    end
+
+    words = [title]
+    words.unshift(self.composition.name.titleize) if composition
+    words.unshift(self.composer.name.titleize)    if composer
+
+    words.join(' ')
+  end
 end

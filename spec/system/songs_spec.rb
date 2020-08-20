@@ -20,6 +20,10 @@ RSpec.describe "Songs", type: :system do
       end
     end
 
+    it "songのcomposer, composition付きタイトルが表示されている" do
+      expect(page).to have_content song.title_with(composer: true, composition: true)
+    end
+
     it_behaves_like "SharedWidgets::AllSongsList"
 
     describe "レスポンシブ対応のテスト" do

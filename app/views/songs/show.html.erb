@@ -6,7 +6,7 @@
       <%= render 'share/all_songs_list', selected_song: @song, parent: @songs_list_parent %>
     </div>
     <div class="col-12 col-md-7 col-lg-5 col-xl-4 offset-md-5 offset-lg-4 offset-xl-4">
-      <div>
+      <div class="mb-4">
         <button type="button" class="btn btn-outline-primary d-md-none"
                 data-toggle="modal" data-target="#songsListModal">
           曲を探す
@@ -15,6 +15,12 @@
                 data-toggle="modal" data-target="#settingsModal">
           設定
         </button>
+      </div>
+      <div>
+        <h4>
+          <%= @song.title_with(composer: true, composition: true) %>
+          <i class="far fa-heart" type="submit"></i>
+        </h4>
       </div>
       <%= render partial: 'youtube_videos_list',
                  collection: @videos[:items],
