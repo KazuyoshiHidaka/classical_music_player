@@ -1,20 +1,24 @@
 document.addEventListener('turbolinks:load', function () {
-  const container = $('#songsListContainer');
-  const songContainer = container
+  const sidebar = $('#songsListsSidebar');
+  const songInSidebar = sidebar
     .find('.border-left-blue')
     .not('[data-toggle="collapse"]')[0];
-  songContainer.scrollIntoView({
-    behavior: 'smooth',
-    block: 'center',
-  });
+  if (songInSidebar != undefined) {
+    songInSidebar.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  }
 
-  const modal = $('#songsListModal');
-  const songModal = modal
+  const modal = $('#songsListsModal');
+  const songInModal = modal
     .find('.border-left-blue')
     .not('[data-toggle="collapse"]')[0];
   modal.on('shown.bs.modal', function (_) {
-    songModal.scrollIntoView({
-      block: 'center',
-    });
+    if (songInModal != undefined) {
+      songInModal.scrollIntoView({
+        block: 'center',
+      });
+    }
   });
 });

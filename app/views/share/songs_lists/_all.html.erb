@@ -1,8 +1,8 @@
 <% selected_song ||= nil %>
 <% parent ||= nil %>
 <div id="allSongsList">
-  <%= render 'share/composer_songs_list',
+  <%= render 'share/songs_lists/composer_songs_list',
              selected_song: parent == "composer" ? selected_song : nil %>
-  <%= render 'share/composition_songs_list',
+  <%= render 'share/songs_lists/composition_songs_list',
              selected_song: parent == "composition" ? selected_song : nil %>
 </div>

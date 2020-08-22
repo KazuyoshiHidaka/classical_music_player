@@ -1,4 +1,4 @@
 class HomesController < ApplicationController
-  def search
+  def home
   end
 end

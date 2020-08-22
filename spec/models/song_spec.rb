@@ -191,7 +191,8 @@ RSpec.describe Song, type: :model do
 
         it "値はcomposer composition op opus no number alt_nameとなる" do
           is_expected.to eq(
-            "#{composer.name} #{composition.name} op #{song.opus} no #{song.number} #{song.alt_name}"
+            "#{composer.name} " \
+            "#{composition.name} op #{song.opus} no #{song.number} #{song.alt_name}"
           )
         end
       end

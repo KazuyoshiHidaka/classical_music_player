@@ -1,0 +1,39 @@
+<% selected_song ||= nil %>
+<% all_songs_list_parent ||= nil %>
+<% prefix = parent_container_name %>
+<ul class="nav nav-tabs" id="<%= prefix %>SongsListsTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="<%= prefix %>AllSongsTab" data-toggle="tab" href="#<%= prefix %>AllSongsTabContent"
+       role="tab" aria-controls="<%= prefix %>AllSongsTabContent" aria-selected="true">
+      一覧
+    </a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="<%= prefix %>UserLikedSongsTab" data-toggle="tab" href="#<%= prefix %>UserLikedSongsTabContent"
+       role="tab" aria-controls="<%= prefix %>UserLikedSongsTabContent" aria-selected="false">
+      お気に入り
+    </a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="<%= prefix %>UserHistorySongsTab" data-toggle="tab" href="#<%= prefix %>UserHistorySongsTabContent"    
+       role="tab" aria-controls="<%= prefix %>UserHistorySongsTabContent" aria-selected="false">
+      履歴
+    </a>
+  </li>
+</ul>
+<div class="tab-content" id="SongsListsTabContent">
+  <div class="tab-pane fade show active" id="<%= prefix %>AllSongsTabContent" role="tabpanel"
+      　aria-labelledby="<%= prefix %>AllSongsTab">
+    <%= render 'share/songs_lists/all', selected_song: selected_song, 
+                                        parent: all_songs_list_parent,
+                                        parent_container_name: parent_container_name %>
+  </div>
+  <div class="tab-pane fade" id="<%= prefix %>UserLikedSongsTabContent" role="tabpanel"
+       aria-labelledby="<%= prefix %>UserLikedSongsTab">
+    <%= render 'share/songs_lists/user_liked' %>
+  </div>
+  <div class="tab-pane fade" id="<%= prefix %>UserHistorySongsTabContent" role="tabpanel"
+       aria-labelledby="<%= prefix %>UserHistorySongsTab">
+    <%= render 'share/songs_lists/user_history'%>
+  </div>
+</div>

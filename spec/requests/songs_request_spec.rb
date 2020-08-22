@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Songs", type: :request do
-  describe "GET #index" do
-    before { get songs_path }
-
-    it "200レスポンスを返す" do
-      expect(response).to have_http_status 200
-    end
-  end
-
   describe "GET #show" do
     let(:song) { create(:song) }
 

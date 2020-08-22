@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Homes", type: :request do
-  describe "GET #search(root)" do
+  describe "GET #home(root)" do
     before { get root_path }
 
     it "200レスポンスを返す" do

@@ -1,9 +1,9 @@
 require 'rails_helper'
-require 'system/shared_widgets/all_songs_list_spec'
+require 'system/layouts/songs_lists_spec'
 
 RSpec.describe "Songs", type: :system do
   describe "/songs/:id" do
-    let(:song) { create(:song) }
+    let!(:song) { create(:song) }
 
     before do
       allow_get_youtube_videos
@@ -24,28 +24,34 @@ RSpec.describe "Songs", type: :system do
       expect(page).to have_content song.title_with(composer: true, composition: true)
     end
 
-    it_behaves_like "SharedWidgets::AllSongsList"
+    it_behaves_like "Layouts::SongsLists"
+
+    shared_examples "UserSettings" do
+      it "表示されている" do
+        expect(page).to have_selector "#userSettings"
+      end
+    end
+
+    it_behaves_like "UserSettings"
 
     describe "レスポンシブ対応のテスト" do
-      shared_examples "モーダルで表示されているか" do |widget_name, target_id|
-        let(:in_modal) { true }
-
+      context "画面の横幅が992px未満の時" do
         before do
-          button = page.find "[data-toggle='modal'][data-target='##{target_id}']"
-          button.click
+          current_window.resize_to(991, 700)
         end
 
-        it_behaves_like widget_name
-      end
-
-      context "画面の横幅が768px未満の時" do
-        before do
-          current_window.resize_to(767, 500)
+        after do
+          current_window.resize_to(1200, 900)
         end
 
-        it_behaves_like "モーダルで表示されているか",
-                        "SharedWidgets::AllSongsList",
-                        "songsListModal"
+        describe "UserSettingsがモーダルで表示されているか" do
+          before do
+            button = page.find "[data-toggle='modal'][data-target='#userSettingsModal']"
+            button.click
+          end
+
+          it_behaves_like "UserSettings"
+        end
       end
     end
   end

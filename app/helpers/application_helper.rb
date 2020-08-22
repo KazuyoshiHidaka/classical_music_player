@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def songs_list_collapse_id(
+  def all_songs_list_collapse_id(
     parent_id:, child_id: nil,
     is_parent_composer: nil,
     is_parent_composition: nil
@@ -12,7 +12,7 @@ module ApplicationHelper
       raise ArgumentError, "is_parent_composerとis_parent_compositionは、どちらか1つだけをtrueにしてください"
     end
 
-    id = "songsListCollapse"
+    id = "allSongsListCollapse"
     if is_parent_composer
       id << "Composer#{parent_id}"
       id << "Composition#{child_id}" if child_id

@@ -1,6 +1,7 @@
+<% selected_song ||= nil %>
 <% Composer.all.each do |composer| %>
   <% composer_collapse_id = 
-      songs_list_collapse_id(
+      all_songs_list_collapse_id(
         parent_id: composer.id, is_parent_composer: true
       )
   %>
@@ -20,7 +21,7 @@
   >
     <% composer.compositions.each do |composition| %>
       <% composition_collapse_id = 
-          songs_list_collapse_id(
+          all_songs_list_collapse_id(
             parent_id: composer.id, child_id: composition.id,
             is_parent_composer: true
           ) 
@@ -40,7 +41,7 @@
            <%= "show" if composer_collapse_condition && composition_collapse_condition %>"
       >
         <% composer.songs.where(composition_id: composition.id).each do |song| %>
-          <%= link_to song_path(song.id, songs_list_parent: "composer"),
+          <%= link_to song_path(song.id, all_songs_list_parent: "composer"),
                       class: "list-group-item list-group-item-action 
                               border-left-thick
                               #{"border-left-blue" if selected_song == song}" do %>
