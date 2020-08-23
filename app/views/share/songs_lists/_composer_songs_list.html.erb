@@ -1,0 +1,54 @@
+<% selected_song ||= nil %>
+<% Composer.all.each do |composer| %>
+  <% composer_collapse_id = 
+      all_songs_list_collapse_id(
+        parent_id: composer.id, is_parent_composer: true
+      )
+  %>
+  <% composer_collapse_condition = selected_song&.composer == composer %>
+  <a class="list-group-item list-group-item-action border-left-thick
+            border-left-blue rounded-left mb-1
+            <%= "collapsed" unless composer_collapse_condition %>"
+     data-toggle="collapse" href="#<%= composer_collapse_id %>"
+     role="button" aria-expanded="false"
+     aria-controls="<%= composer_collapse_id %>"
+  >
+    <%= composer.name.titleize %>
+  </a>
+  <div id="<%= composer_collapse_id %>"
+       class="collapse mt-1 mb-4 ml-2
+              <%= "show" if composer_collapse_condition %>"
+  >
+    <% composer.compositions.each do |composition| %>
+      <% composition_collapse_id = 
+          all_songs_list_collapse_id(
+            parent_id: composer.id, child_id: composition.id,
+            is_parent_composer: true
+          ) 
+      %>
+      <% composition_collapse_condition = selected_song&.composition == composition %>
+      <a class="list-group-item list-group-item-action border-left-thick
+                border-left-teal rounded-left mb-1
+                <%= "collapsed" if !composer_collapse_condition || !composition_collapse_condition %>"
+         data-toggle="collapse" href="#<%= composition_collapse_id %>"
+         role="button" aria-expanded="false"
+         aria-controls="<%= composition_collapse_id %>"
+      >
+        <%= composition.name.titleize %>
+      </a>
+      <div id="<%= composition_collapse_id %>"
+           class="collapse mt-1 mb-4 ml-2
+           <%= "show" if composer_collapse_condition && composition_collapse_condition %>"
+      >
+        <% composer.songs.where(composition_id: composition.id).each do |song| %>
+          <%= link_to song_path(song.id, all_songs_list_parent: "composer"),
+                      class: "list-group-item list-group-item-action 
+                              border-left-thick
+                              #{"border-left-blue" if selected_song == song}" do %>
+            <%= song.title %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

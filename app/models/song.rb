@@ -18,6 +18,7 @@ class Song < ApplicationRecord
   validates_uniqueness_of :opus, case_sensitive: true,
                                  scope: %i(composer_id number),
                                  message: "複合キー[composer_id opus number]はuniqueness"
+  validates :key, presence: true
 
   def query_to_search_youtube
     words = [composer.name, composition.name]
@@ -31,5 +32,37 @@ class Song < ApplicationRecord
     words << alt_name
 
     words.compact.join(" ")
+  end
+
+  def title
+    opus_word = "op."
+    if opus == 'posthumous'
+      opus_word << 'posth.'
+    else
+      opus_word << opus
+    end
+
+    number_word = number ? "no.#{number}" : nil
+
+    words = [
+      opus_word,
+      number_word,
+      key.capitalize,
+      alt_name&.titleize,
+    ]
+    words.compact.join(', ')
+  end
+
+  def title_with(composer: false, composition: false)
+    if !composer && !composition
+      raise ArgumentError,
+            "代わりにSong#titleメソッドを使用してください"
+    end
+
+    words = [title]
+    words.unshift(self.composition.name.titleize) if composition
+    words.unshift(self.composer.name.titleize)    if composer
+
+    words.join(' ')
   end
 end

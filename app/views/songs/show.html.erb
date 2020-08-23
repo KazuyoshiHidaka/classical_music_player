@@ -1,8 +1,29 @@
-<div class="container">
-  <% @videos[:items].each_with_index do |item, i| %>
-    <% id = item.dig(:id, :video_id) %>
-    <div class="my-5 embed-responsive embed-responsive-16by9">
-      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= id %>" allowfullscreen></iframe>
-    </div>
+<% content_for :songs_list_selected_song_id, "#{@song.id}" %>
+<% content_for :additional_modal_buttons do %>
+  <button type="button" class="btn btn-outline-primary d-lg-none"
+                data-toggle="modal" data-target="#userSettingsModal">
+    設定
+  </button>
+  <%= render 'share/modal_base', id: "userSettingsModal", title: "ユーザー設定" do %>
+    <%= render 'share/user_settings_list' %>
   <% end %>
+<% end %>
+<div class="row mt-4">
+  <div class="col col-lg-6">
+    <div>
+      <h4>
+        <%= @song.title_with(composer: true, composition: true) %>
+        <i class="material-icons" type="submit">
+          favorite_border
+        </i>
+      </h4>
+    </div>
+    <%= render partial: 'youtube_videos_list',
+                 collection: @videos[:items],
+                 as: :item
+      %>
+  </div>
+  <div class="col-4 d-none d-lg-block position-fixed overflow-auto h-100" style="right: 0;">
+    <%= render 'share/user_settings_list' %>
+  </div>
 </div>

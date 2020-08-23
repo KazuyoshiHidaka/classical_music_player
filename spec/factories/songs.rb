@@ -4,7 +4,7 @@ FactoryBot.define do
     association :composition
     sequence(:opus) { |n| n }
     sequence(:number) { |n| n }
-    key { "A minor" }
+    key { "a minor" }
 
     trait :posthumous do
       opus { "posthumous" }
@@ -15,7 +15,7 @@ FactoryBot.define do
     end
 
     trait :alt_name do
-      alt_name { "Winter Wind" }
+      alt_name { "winter wind" }
     end
   end
 end

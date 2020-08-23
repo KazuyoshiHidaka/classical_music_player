@@ -3,10 +3,10 @@ module CustomData
     def self.post_data_to_db
       data.each do |json|
         json_composer = json[:composer]
-        composer = Composer.find_or_create_by(name: json_composer[:name])
+        composer = Composer.find_or_create_by(name: json_composer[:name].downcase)
 
         json_composition = json[:composition]
-        composition = Composition.find_or_create_by(name: json_composition[:name])
+        composition = Composition.find_or_create_by(name: json_composition[:name].downcase)
 
         json_songs = json[:songs]
         json_songs.each do |json_song|
@@ -15,7 +15,7 @@ module CustomData
             composition_id: composition.id,
             opus: json_song[:opus],
             number: json_song[:number],
-            key: json_song[:key],
+            key: json_song[:key].downcase,
             alt_name: json_song[:alt_name]&.downcase
           )
         end
@@ -46,7 +46,7 @@ module CustomData
             name: "Etude",
           },
           songs: [
-            { opus: 10, number: 1,  key: "C major", alt_name: "Waterfall" },
+            { opus: 10, number: 1,  key: "C major", alt_name: "Water fall" },
             { opus: 10, number: 2,  key: "A minor" },
             { opus: 10, number: 3,  key: "E major", alt_name: "Tristesse" },
             { opus: 10, number: 4,  key: "C sharp minor" },

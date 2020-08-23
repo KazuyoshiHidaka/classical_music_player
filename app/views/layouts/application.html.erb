@@ -6,9 +6,19 @@
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body>
-    <%= yield %>
+    <div class="container-fluid mt-3">
+      <div class="row">
+        <%= render 'layouts/songs_lists' %>
+        <div class="col">
+          <%= render 'layouts/modal_buttons' %>
+          <%= yield %>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

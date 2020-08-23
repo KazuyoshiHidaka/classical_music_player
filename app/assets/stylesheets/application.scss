@@ -1,14 +1,26 @@
-$fa-font-path: '@fortawesome/fontawesome-free/webfonts';
-@import '@fortawesome/fontawesome-free/scss/fontawesome';
-@import '@fortawesome/fontawesome-free/scss/regular';
-@import '@fortawesome/fontawesome-free/scss/solid';
-@import '@fortawesome/fontawesome-free/scss/brands';
-
 $enable-shadows: true;
 $enable-gradients: true;
 $enable-deprecation-messages: true;
 @import 'bootstrap/scss/bootstrap';
 
-i {
-  font-size: 24px;
+@each $key, $color in $colors {
+  .border-left-#{$key} {
+    border-left-color: $color;
+  }
+}
+
+.border-left-thick {
+  border-left-width: thick;
+}
+
+#allSongsList {
+  a[data-toggle='collapse']::before {
+    font-family: 'Material Icons';
+    content: '\E15B';
+    padding-right: 0.25rem;
+    vertical-align: -0.1rem;
+  }
+  a.collapsed[data-toggle='collapse']::before {
+    content: '\E145';
+  }
 }
