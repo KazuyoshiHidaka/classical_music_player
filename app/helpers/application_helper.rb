@@ -22,4 +22,15 @@ module ApplicationHelper
     end
     id
   end
+
+  def bs_class_for_flash(type:)
+    case type
+    when 'alert'
+      'danger'
+    when 'notice'
+      'info'
+    else
+      type
+    end
+  end
 end

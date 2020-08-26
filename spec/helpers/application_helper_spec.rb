@@ -124,4 +124,46 @@ RSpec.describe ApplicationHelper, type: :helper do
       end
     end
   end
+
+  describe "#bs_class_for_flash" do
+    subject { helper.bs_class_for_flash(type: type) }
+
+    context "引数typeを与えなかった場合" do
+      it "ArgumentErrorが発生する" do
+        expect { helper.bs_class_for_flash }.to raise_error ArgumentError
+      end
+    end
+
+    context "nilを与えた場合" do
+      let(:type) { nil }
+
+      it "nilを返す" do
+        is_expected.to be nil
+      end
+    end
+
+    context "'alert'を与えた場合" do
+      let(:type) { 'alert' }
+
+      it "'danger'を返す" do
+        is_expected.to eq 'danger'
+      end
+    end
+
+    context "'notice'を与えた場合" do
+      let(:type) { 'notice' }
+
+      it "'info'を返す" do
+        is_expected.to eq 'info'
+      end
+    end
+
+    context "alertやnotice以外の文字列を与えた場合" do
+      let(:type) { 'success' }
+
+      it "与えた文字列をそのまま返す" do
+        is_expected.to eq type
+      end
+    end
+  end
 end
