@@ -5,7 +5,7 @@
     設定
   </button>
   <%= render 'share/modal_base', id: "userSettingsModal", title: "ユーザー設定" do %>
-    <%= render 'share/user_settings_list' %>
+    <%= render 'share/settings_users/user_settings_list' %>
   <% end %>
 <% end %>
 <div class="row mt-4">
@@ -24,6 +24,6 @@
       %>
   </div>
   <div class="col-4 d-none d-lg-block position-fixed overflow-auto h-100" style="right: 0;">
-    <%= render 'share/user_settings_list' %>
+    <%= render 'share/settings_users/user_settings_list' %>
   </div>
 </div>

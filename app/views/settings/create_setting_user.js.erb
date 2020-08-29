@@ -1,0 +1,6 @@
+var formContainers = document.getElementsByClassName(
+  'setting-<%= @setting.id %>-form-container',
+);
+for (const formContainer of formContainers) {
+  formContainer.innerHTML = `<%= j(render "share/settings_users/destroy_setting_user_form", setting: @setting) %>`;
+}

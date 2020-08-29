@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Songs", type: :request do
+  before { login }
+
   describe "GET #show" do
     let(:song) { create(:song) }
 

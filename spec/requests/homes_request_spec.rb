@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Homes", type: :request do
+  before { login }
+
   describe "GET #home(root)" do
     before { get root_path }
 
