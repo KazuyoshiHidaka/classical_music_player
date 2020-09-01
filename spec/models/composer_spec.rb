@@ -22,14 +22,6 @@ RSpec.describe Composer, type: :model do
   describe "Validation" do
     subject { composer.valid? }
 
-    shared_examples '有効になる' do
-      it { is_expected.to be true }
-    end
-
-    shared_examples '無効になる' do
-      it { is_expected.to be false }
-    end
-
     context "nameがnilの場合" do
       let(:composer) { build(:composer, name: nil) }
 

@@ -11,10 +11,10 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body>
-    <div class="container-fluid mt-3">
+    <div class="container-fluid">
       <div class="row">
         <%= render 'layouts/songs_lists' %>
-        <div class="col">
+        <div class="col pt-3">
           <%= render 'layouts/flash' %>
           <%= render 'layouts/modal_buttons' %>
           <%= yield %>

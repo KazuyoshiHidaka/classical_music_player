@@ -1,7 +1,0 @@
-<%= form_with url: setting_destroy_setting_user_path(setting.id),
-              method: :delete do |form| %>
-  <%= render 'share/settings_users/setting_user_form',
-              setting: setting,
-              form: form,
-              checked: true %>
-<% end %>

@@ -4,14 +4,6 @@ RSpec.describe SettingClassification, type: :model do
   describe "Validation" do
     subject { setting_classification.valid? }
 
-    shared_examples '有効になる' do
-      it { is_expected.to be true }
-    end
-
-    shared_examples '無効になる' do
-      it { is_expected.to be false }
-    end
-
     describe "id:integer" do
       context "nilを与えた場合" do
         let(:setting_classification) { build(:setting_classification, id: nil) }
@@ -27,7 +19,9 @@ RSpec.describe SettingClassification, type: :model do
 
       context "他のレコードと値が重複する場合" do
         let(:other_setting_classification) { create(:setting_classification) }
-        let(:setting_classification) { build(:setting_classification, id: other_setting_classification.id) }
+        let(:setting_classification) do
+          build(:setting_classification, id: other_setting_classification.id)
+        end
 
         it_behaves_like '無効になる'
       end
@@ -60,7 +54,9 @@ RSpec.describe SettingClassification, type: :model do
 
       context "他のレコードと値が重複する場合" do
         let(:other_setting_classification) { create(:setting_classification) }
-        let(:setting_classification) { build(:setting_classification, description: other_setting_classification.description) }
+        let(:setting_classification) do
+          build(:setting_classification, description: other_setting_classification.description)
+        end
 
         it_behaves_like '無効になる'
       end

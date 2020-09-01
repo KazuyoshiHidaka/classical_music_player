@@ -4,14 +4,6 @@ RSpec.describe Song, type: :model do
   describe "Validation" do
     subject { song.valid? }
 
-    shared_examples '有効になる' do
-      it { is_expected.to be true }
-    end
-
-    shared_examples '無効になる' do
-      it { is_expected.to be false }
-    end
-
     describe "opus:stringカラム" do
       context "空文字の場合" do
         let(:song) { build(:song, opus: '') }

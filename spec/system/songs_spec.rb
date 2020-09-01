@@ -9,6 +9,9 @@ RSpec.describe "Songs", type: :system do
   describe "/songs/:id" do
     let!(:song) { create(:song) }
     let!(:setting) { create(:setting) }
+    let!(:setting_with_same_classification) do
+      create(:setting, setting_classification: setting.setting_classification)
+    end
 
     before do
       allow_get_youtube_videos
@@ -32,17 +35,12 @@ RSpec.describe "Songs", type: :system do
     it_behaves_like "Layouts::SongsLists"
 
     shared_examples "UserSettings" do
-      def click_setting_checkbox
-        checkbox = page.find(
-          "#userSettings form input[type='checkbox']"
-        )
-        form_action = if checkbox.checked?
-                        setting_create_setting_user_path(setting.id)
-                      else
-                        setting_destroy_setting_user_path(setting.id)
-                      end
-        checkbox.click
-        page.find "#userSettings form[action='#{form_action}']"
+      def click_radio_of(setting:)
+        ids = user.settings.ids
+        choose setting.description
+        while user.settings.ids == ids
+          sleep 0.1
+        end
       end
 
       it "Settingの情報が表示されている" do
@@ -50,33 +48,26 @@ RSpec.describe "Songs", type: :system do
       end
 
       context "Settingのcheckboxをクリックした時" do
-        before { click_setting_checkbox }
+        before { click_radio_of(setting: setting) }
 
-        it "Settingとcurrent_userの関連レコードが作成されている" do
+        it "UserSettingが作成されている" do
           expect(user.settings.exists?(setting.id)).to be true
         end
 
-        it "destroy_setting_user_formが表示されている" do
-          expect(page).to have_selector(
-            "#userSettings form[" \
-              "action='#{setting_destroy_setting_user_path(setting.id)}'" \
-            "]"
-          )
-        end
-
         context "さらにクリックしたとき" do
-          before { click_setting_checkbox }
+          before { click_radio_of(setting: setting) }
 
-          it "Settingとcurrent_userの関連レコードが削除されている" do
+          it "UserSettingが削除されている" do
             expect(user.settings.exists?(setting.id)).to be false
           end
+        end
 
-          it "create_setting_user_formが表示されている" do
-            expect(page).to have_selector(
-              "#userSettings form[" \
-                "action='#{setting_create_setting_user_path(setting.id)}'" \
-              "]"
-            )
+        context "同じSettingClassificationに属する別のSettingをクリックした時" do
+          before { click_radio_of(setting: setting_with_same_classification) }
+
+          it "UserSettingが更新される" do
+            expect(user.settings.exists?(setting.id)).to be false
+            expect(user.settings.exists?(setting_with_same_classification.id)).to be true
           end
         end
       end

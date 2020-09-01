@@ -4,14 +4,6 @@ RSpec.describe Setting, type: :model do
   describe "Validation" do
     subject { setting.valid? }
 
-    shared_examples '有効になる' do
-      it { is_expected.to be true }
-    end
-
-    shared_examples '無効になる' do
-      it { is_expected.to be false }
-    end
-
     describe "id:integer" do
       context "nilを与えた場合" do
         let(:setting) { build(:setting, id: nil) }
