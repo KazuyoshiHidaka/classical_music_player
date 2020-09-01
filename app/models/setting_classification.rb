@@ -1,7 +1,5 @@
-class Setting < ApplicationRecord
-  has_many :user_settings, dependent: :destroy
-  has_many :users, through: :user_settings
-  belongs_to :setting_classification
+class SettingClassification < ApplicationRecord
+  has_many :settings
 
   validates :id, presence: true
   validates_uniqueness_of :id
@@ -17,17 +15,10 @@ class Setting < ApplicationRecord
   end
 
   def self.data
-    SettingClassification.post_data_to_db unless SettingClassification.exists?
     [
       {
         id: 1,
-        setting_classification_id: 1,
-        description: "次の曲を再生",
-      },
-      {
-        id: 2,
-        setting_classification_id: 1,
-        description: "次の動画を再生",
+        description: "動画終了時",
       },
     ]
   end

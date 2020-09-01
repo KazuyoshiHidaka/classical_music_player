@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe Setting, type: :model do
+RSpec.describe SettingClassification, type: :model do
   describe "Validation" do
-    subject { setting.valid? }
+    subject { setting_classification.valid? }
 
     shared_examples '有効になる' do
       it { is_expected.to be true }
@@ -14,32 +14,32 @@ RSpec.describe Setting, type: :model do
 
     describe "id:integer" do
       context "nilを与えた場合" do
-        let(:setting) { build(:setting, id: nil) }
+        let(:setting_classification) { build(:setting_classification, id: nil) }
 
         it_behaves_like '無効になる'
       end
 
       context "0を与えた場合" do
-        let(:setting) { build(:setting, id: 0) }
+        let(:setting_classification) { build(:setting_classification, id: 0) }
 
         it_behaves_like '無効になる'
       end
 
       context "他のレコードと値が重複する場合" do
-        let(:other_setting) { create(:setting) }
-        let(:setting) { build(:setting, id: other_setting.id) }
+        let(:other_setting_classification) { create(:setting_classification) }
+        let(:setting_classification) { build(:setting_classification, id: other_setting_classification.id) }
 
         it_behaves_like '無効になる'
       end
 
       context "小数を与えた場合" do
-        let(:setting) { build(:setting, id: 0.1) }
+        let(:setting_classification) { build(:setting_classification, id: 0.1) }
 
         it_behaves_like '無効になる'
       end
 
       context "整数を与えた場合" do
-        let(:setting) { build(:setting) }
+        let(:setting_classification) { build(:setting_classification) }
 
         it_behaves_like '有効になる'
       end
@@ -47,26 +47,26 @@ RSpec.describe Setting, type: :model do
 
     describe "description:string" do
       context "nilを与えた場合" do
-        let(:setting) { build(:setting, description: nil) }
+        let(:setting_classification) { build(:setting_classification, description: nil) }
 
         it_behaves_like '無効になる'
       end
 
       context "空文字を与えた場合" do
-        let(:setting) { build(:setting, description: '') }
+        let(:setting_classification) { build(:setting_classification, description: '') }
 
         it_behaves_like '無効になる'
       end
 
       context "他のレコードと値が重複する場合" do
-        let(:other_setting) { create(:setting) }
-        let(:setting) { build(:setting, description: other_setting.description) }
+        let(:other_setting_classification) { create(:setting_classification) }
+        let(:setting_classification) { build(:setting_classification, description: other_setting_classification.description) }
 
         it_behaves_like '無効になる'
       end
 
       context "通常の文字列の場合" do
-        let(:setting) { build(:setting) }
+        let(:setting_classification) { build(:setting_classification) }
 
         it_behaves_like '有効になる'
       end
@@ -76,15 +76,15 @@ RSpec.describe Setting, type: :model do
   describe "Class Methods" do
     describe "#post_data_to_db" do
       subject do
-        Setting.select(:id, :description, :setting_classification_id).map do |setting|
-          setting.attributes.symbolize_keys
+        SettingClassification.select(:id, :description).map do |setting_classification|
+          setting_classification.attributes.symbolize_keys
         end
       end
 
-      before { Setting.post_data_to_db }
+      before { SettingClassification.post_data_to_db }
 
       it "dataが保存されている" do
-        is_expected.to match_array Setting.data
+        is_expected.to match_array SettingClassification.data
       end
     end
   end

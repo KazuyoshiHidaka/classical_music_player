@@ -6,4 +6,5 @@ User.create(
   email: "test@email.com", password: "password"
 )
 CustomData::Songs.post_data_to_db
+SettingClassification.post_data_to_db
 Setting.post_data_to_db
