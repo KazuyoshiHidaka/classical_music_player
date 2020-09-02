@@ -13,7 +13,7 @@ RSpec.describe "UserSettings", type: :request do
     context "UserSettingがまだなかった場合" do
       let(:setting) { create(:setting) }
 
-      before { post user_settings_path(params) }
+      before { post user_settings_path(params), xhr: true }
 
       it_behaves_like 'HTTP200を返す'
 
@@ -34,7 +34,7 @@ RSpec.describe "UserSettings", type: :request do
       context "同じSettingClassificationに属する別のSettingを登録する時" do
         let(:setting) { create(:setting) }
 
-        before { post user_settings_path(params) }
+        before { post user_settings_path(params), xhr: true }
 
         it_behaves_like 'HTTP200を返す'
 
@@ -48,7 +48,7 @@ RSpec.describe "UserSettings", type: :request do
 
         before do
           params.delete(:setting_id)
-          post user_settings_path(params)
+          post user_settings_path(params), xhr: true
         end
 
         it_behaves_like 'HTTP200を返す'
