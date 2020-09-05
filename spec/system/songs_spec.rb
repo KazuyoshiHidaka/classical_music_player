@@ -23,13 +23,15 @@ RSpec.describe "Songs", type: :system do
       aggregate_failures do
         items.each do |item|
           id = item.dig(:id, :video_id)
-          expect(page.has_selector?("iframe[src='https://www.youtube.com/embed/#{id}']")).to be true
+          expect(page.has_selector?(
+            "iframe[src='https://www.youtube.com/embed/#{id}']"
+          )).to be true
         end
       end
     end
 
     it "songのcomposer, composition付きタイトルが表示されている" do
-      expect(page).to have_content song.title_with(composer: true, composition: true)
+      expect(page).to have_content song.decorate.title_with(composer: true, composition: true)
     end
 
     it_behaves_like "Layouts::SongsLists"

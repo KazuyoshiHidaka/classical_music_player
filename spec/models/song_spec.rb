@@ -26,64 +26,6 @@ RSpec.describe Song, type: :model do
   end
 
   describe "Instance Methods" do
-    describe "#title_with" do
-      subject do
-        song.title_with(composer: with_composer, composition: with_composition)
-      end
-
-      let(:song) { create(:song) }
-
-      context "引数を指定しなかった場合" do
-        it "ArgumentErrorが発生する" do
-          expect { song.title_with }.to raise_error ArgumentError
-        end
-      end
-
-      context "with_composer: false, with_composition: false" do
-        let(:with_composer) { false }
-        let(:with_composition) { false }
-
-        it "ArgumentErrorが発生する" do
-          expect { subject }.to raise_error ArgumentError
-        end
-      end
-
-      context "with_composer: trueの場合" do
-        let(:with_composer) { true }
-        let(:with_composition) { false }
-
-        it "'composerの名前 songのタイトル'を返す" do
-          is_expected.to eq(
-            "#{song.composer.name.titleize} #{song.title}"
-          )
-        end
-      end
-
-      context "with_composition: trueの場合" do
-        let(:with_composer) { false }
-        let(:with_composition) { true }
-
-        it "'compositionの名前 songのタイトル'を返す" do
-          is_expected.to eq(
-            "#{song.composition.name.titleize} #{song.title}"
-          )
-        end
-      end
-
-      context "with_composer: true, with_composition: trueの場合" do
-        let(:with_composer) { true }
-        let(:with_composition) { true }
-
-        it "'composerの名前 compositionの名前 songのタイトル'を返す" do
-          is_expected.to eq(
-            "#{song.composer.name.titleize} " \
-            "#{song.composition.name.titleize} " +
-            song.title
-          )
-        end
-      end
-    end
-
     describe "#next_in" do
       subject { song.next_in(collection: collection) }
 
