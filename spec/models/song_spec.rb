@@ -4,133 +4,15 @@ RSpec.describe Song, type: :model do
   describe "Validation" do
     subject { song.valid? }
 
-    describe "opus:stringカラム" do
-      context "空文字の場合" do
-        let(:song) { build(:song, opus: '') }
-
-        it_behaves_like '無効になる'
-      end
-
+    describe "title:string" do
       context "nilの場合" do
-        let(:song) { build(:song, opus: nil) }
-
-        it_behaves_like '無効になる'
-      end
-
-      context "整数以外の場合" do
-        let(:song) { build(:song, opus: 1.1) }
-
-        it_behaves_like '無効になる'
-      end
-
-      context "0の場合" do
-        let(:song) { build(:song, opus: 0) }
-
-        it_behaves_like '無効になる'
-      end
-
-      context "整数の場合" do
-        let(:song) { build(:song, opus: 1) }
-
-        it_behaves_like '有効になる'
-      end
-
-      context "'posthumous'以外の文字列の場合" do
-        let(:song) { build(:song, opus: "opus") }
-
-        it_behaves_like '無効になる'
-      end
-
-      context "'posthumous'の場合" do
-        let(:song) { build(:song, :posthumous) }
-
-        it_behaves_like '有効になる'
-      end
-    end
-
-    describe "number:integerカラム" do
-      context "整数以外の場合" do
-        let(:song) { build(:song, number: 1.1) }
-
-        it_behaves_like '無効になる'
-      end
-
-      context "0の場合" do
-        let(:song) { build(:song, opus: 0) }
-
-        it_behaves_like '無効になる'
-      end
-
-      context "整数の場合" do
-        let(:song) { build(:song, number: 1) }
-
-        it_behaves_like '有効になる'
-      end
-
-      context "nilの場合" do
-        let(:composer) { create(:composer) }
-        let(:composition) { create(:composition) }
-        let(:song) do
-          build(:song, :no_number, composer_id: composer.id, composition_id: composition.id)
-        end
-
-        context "同じcomposer, 同じcompositionのSongレコードが他にある場合" do
-          before do
-            create(:song, composer_id: composer.id, composition_id: composition.id)
-          end
-
-          it_behaves_like '無効になる'
-        end
-
-        context "同じcomposer, 同じcompositionのSongレコードが他にない場合" do
-          it_behaves_like '有効になる'
-        end
-      end
-    end
-
-    describe "複合キー[composer_id, opus, number]" do
-      context "キーが重複する場合" do
-        let(:song_valid) { create(:song) }
-        let(:song) do
-          build(:song,
-                composer_id: song_valid.composer_id,
-                opus: song_valid.opus,
-                number: song_valid.number)
-        end
-
-        it_behaves_like '無効になる'
-      end
-
-      context "キーが重複しない場合" do
-        let(:song) { create(:song) }
-
-        it "有効になる" do
-          aggregate_failures "複合キーの組み合わせの中に、別の一意制約のキーが入っていない" do
-            songs = [
-              ["song_dup_composer",            build(:song, composer_id: song.composer_id)],
-              ["song_dup_opus",                build(:song, opus: song.opus)],
-              ["song_dup_number",              build(:song, number: song.number)],
-              ["song_dup_composer_and_opus",   build(:song, composer_id: song.composer_id, opus: song.opus)], # rubocop:disable LineLength
-              ["song_dup_composer_and_number", build(:song, composer_id: song.composer_id, number: song.number)], # rubocop:disable LineLength
-              ["song_dup_opus_and_number",     build(:song, opus: song.opus, number: song.number)],
-            ]
-            songs.each do |type, song|
-              expect(song.valid?).to be(true), "無効になったsongの種類: #{type}"
-            end
-          end
-        end
-      end
-    end
-
-    describe "key:string" do
-      context "nilの場合" do
-        let(:song) { build(:song, key: nil) }
+        let(:song) { build(:song, title: nil) }
 
         it_behaves_like '無効になる'
       end
 
       context "空文字の場合" do
-        let(:song) { build(:song, key: '') }
+        let(:song) { build(:song, title: '') }
 
         it_behaves_like '無効になる'
       end
@@ -144,82 +26,6 @@ RSpec.describe Song, type: :model do
   end
 
   describe "Instance Methods" do
-    describe "#query_to_search_youtube" do
-      subject { song.query_to_search_youtube }
-
-      let(:composer) { song.composer }
-      let(:composition) { song.composition }
-
-      context "opusがposthumousの場合" do
-        let(:song) { create(:song, :posthumous) }
-
-        it "値はcomposer composition posthumous numberとなる" do
-          is_expected.to eq "#{composer.name} #{composition.name} #{song.opus} #{song.number}"
-        end
-      end
-
-      context "opusがposthumous以外の場合" do
-        context "numberがnilの場合" do
-          let(:song) { create(:song, :no_number) }
-
-          it "値はcomposer composition op opusとなる" do
-            is_expected.to eq "#{composer.name} #{composition.name} op #{song.opus}"
-          end
-        end
-
-        context "numberがnil以外の場合" do
-          let(:song) { create(:song) }
-
-          it "値はcomposer composition op opus no numberとなる" do
-            is_expected.to eq(
-              "#{composer.name} #{composition.name} op #{song.opus} no #{song.number}"
-            )
-          end
-        end
-      end
-
-      context "alt_nameがnil以外の場合" do
-        let(:song) { create(:song, :alt_name) }
-
-        it "値はcomposer composition op opus no number alt_nameとなる" do
-          is_expected.to eq(
-            "#{composer.name} " \
-            "#{composition.name} op #{song.opus} no #{song.number} #{song.alt_name}"
-          )
-        end
-      end
-    end
-
-    describe "#title" do
-      subject { song.title }
-
-      context "opusがposthumous" do
-        let(:song) { create(:song, :posthumous) }
-
-        it "'op.posth.'になる" do
-          is_expected.to eq "op.posth., no.#{song.number}, #{song.key.capitalize}"
-        end
-      end
-
-      context "numberがnilの場合" do
-        let(:song) { create(:song, :no_number) }
-
-        it "no.\#{number} が省略される" do
-          is_expected.to eq "op.#{song.opus}, #{song.key.capitalize}"
-        end
-      end
-
-      context "alt_nameに値を与えた場合" do
-        let(:song) { create(:song, :alt_name) }
-
-        it "keyの後ろに ', alt_name'が加わる" do
-          is_expected.to(eq(
-            "op.#{song.opus}, no.#{song.number}, #{song.key.capitalize}, #{song.alt_name.titleize}"
-          ))
-        end
-      end
-    end
-
     describe "#title_with" do
       subject do
         song.title_with(composer: with_composer, composition: with_composition)
@@ -274,6 +80,40 @@ RSpec.describe Song, type: :model do
             "#{song.composition.name.titleize} " +
             song.title
           )
+        end
+      end
+    end
+
+    describe "#next_in" do
+      subject { song.next_in(collection: collection) }
+
+      context "collection中の最初のSongの場合" do
+        let!(:songs) { create_list(:song, 3) }
+        let(:song) { songs.first }
+        let(:collection) { Song.all }
+
+        it "最初から2番目のSongを取得する" do
+          is_expected.to eq songs.second
+        end
+      end
+
+      context "collection中の最後のSongの場合" do
+        let!(:songs) { create_list(:song, 3) }
+        let(:song) { songs.last }
+        let(:collection) { Song.all }
+
+        it "最初のSongを取得する" do
+          is_expected.to eq songs.first
+        end
+      end
+
+      context "collectionの並び順を反対にした場合" do
+        let!(:songs) { create_list(:song, 3) }
+        let(:song) { songs.last }
+        let(:collection) { Song.order(id: :desc) }
+
+        it "期待するNextSongを取得する" do
+          is_expected.to eq songs.second
         end
       end
     end

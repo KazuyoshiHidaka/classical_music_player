@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_30_052231) do
+ActiveRecord::Schema.define(version: 2020_09_04_083520) do
   create_table "composers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -46,11 +46,7 @@ ActiveRecord::Schema.define(version: 2020_08_30_052231) do
     t.bigint "composition_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "opus", null: false
-    t.integer "number"
-    t.string "key", null: false
-    t.string "alt_name"
-    t.index ["composer_id", "opus", "number"], name: "index_songs_on_composer_id_and_opus_and_number", unique: true
+    t.string "title", null: false
     t.index ["composer_id"], name: "index_songs_on_composer_id"
     t.index ["composition_id"], name: "index_songs_on_composition_id"
   end

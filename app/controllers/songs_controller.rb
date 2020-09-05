@@ -1,7 +1,7 @@
 class SongsController < ApplicationController
   def show
     @song = Song.find_by(id: params[:id])
-    @videos = get_videos(q: @song.query_to_search_youtube).to_h
+    @videos = get_videos(q: @song.title_with(composer: true, composition: true)).to_h
   end
 
   def index
