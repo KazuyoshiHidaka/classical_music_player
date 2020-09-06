@@ -22,10 +22,10 @@ module CustomData
     def self.data
       [
         {
-          composers: {
+          composer: {
             name: "Bach",
           },
-          compositions: {
+          composition: {
             name: "Brandenburg Concerto",
           },
           songs: [
@@ -38,10 +38,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Bach",
           },
-          compositions: {
+          composition: {
             name: "Concerto",
           },
           songs: [
@@ -65,10 +65,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Bach",
           },
-          compositions: {
+          composition: {
             name: "Suite",
           },
           songs: [
@@ -79,10 +79,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Bach",
           },
-          compositions: {
+          composition: {
             name: "Ballet",
           },
           songs: [
@@ -98,10 +98,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Bach",
           },
-          compositions: {
+          composition: {
             name: "Cantata",
           },
           songs: [
@@ -304,10 +304,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Bach",
           },
-          compositions: {
+          composition: {
             name: "Fugue",
           },
           songs: [
@@ -338,10 +338,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Beethoven",
           },
-          compositions: {
+          composition: {
             name: "Sonata",
           },
           songs: [
@@ -402,10 +402,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Beethoven",
           },
-          compositions: {
+          composition: {
             name: "Concerto",
           },
           songs: [
@@ -420,10 +420,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Beethoven",
           },
-          compositions: {
+          composition: {
             name: "Grosse Fuge",
           },
           songs: [
@@ -431,10 +431,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Beethoven",
           },
-          compositions: {
+          composition: {
             name: "String Quartet",
           },
           songs: [
@@ -457,10 +457,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Beethoven",
           },
-          compositions: {
+          composition: {
             name: "Symphonie",
           },
           songs: [
@@ -476,10 +476,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Brahms",
           },
-          compositions: {
+          composition: {
             name: "Concerto",
           },
           songs: [
@@ -490,10 +490,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Brahms",
           },
-          compositions: {
+          composition: {
             name: "Overture",
           },
           songs: [
@@ -502,10 +502,10 @@ module CustomData
           ],
         },
         {
-          composers: {
+          composer: {
             name: "Brahms",
           },
-          compositions: {
+          composition: {
             name: "Symphony",
           },
           songs: [
