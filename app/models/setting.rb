@@ -27,7 +27,12 @@ class Setting < ApplicationRecord
       {
         id: 2,
         setting_classification_id: 1,
-        description: "次の動画を再生",
+        description: "同じ曲の次の動画を再生",
+      },
+      {
+        id: 3,
+        setting_classification_id: 1,
+        description: "同じ動画をループ再生",
       },
     ]
   end

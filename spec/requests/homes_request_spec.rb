@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe "Homes", type: :request do
   before { login }
 
+  let!(:song) { create(:song) }
+
   describe "GET #home(root)" do
     before { get root_path }
 
