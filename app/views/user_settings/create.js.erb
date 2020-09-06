@@ -1,0 +1,7 @@
+var forms = document.querySelectorAll(
+  `#settingClassification<%= @setting_classification.id %>FormContainer`,
+);
+for (const form of forms) {
+  form.innerHTML = `<%= j(render 'share/setting_classification_form',
+                                  setting_classification: @setting_classification) %>`;
+}

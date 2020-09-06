@@ -1,6 +1,3 @@
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
 CustomData::Songs.post_data_to_db
+SettingClassification.post_data_to_db
+Setting.post_data_to_db

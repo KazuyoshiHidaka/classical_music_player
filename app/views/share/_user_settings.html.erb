@@ -1,0 +1,10 @@
+<div id="userSettings">
+  <% SettingClassification.all.each do |setting_classification| %>
+    <div class="mb-4">
+      <div id="settingClassification<%= setting_classification.id %>FormContainer">
+        <%= render 'share/setting_classification_form',
+                   setting_classification: setting_classification %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,10 @@
+<%= form_with url: user_settings_path do |form| %>
+  <label class="h5 mb-2"><%= setting_classification.description %></label>
+  <%= form.hidden_field :setting_classification_id, value: setting_classification.id %>
+  <% setting_classification.settings.each do |setting| %>
+    <label class="d-block">
+      <%= form.radio_button :setting_id, setting.id, checked: (current_user.settings.exists? setting.id) %>
+      <%= setting.description %>
+    </label>
+  <% end %>
+<% end %>

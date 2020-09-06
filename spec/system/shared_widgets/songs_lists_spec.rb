@@ -14,21 +14,21 @@ RSpec.shared_examples "SharedWidgets::SongsLists" do
     it_behaves_like "SharedWidgets::AllSongsList"
   end
 
-  describe "UserLikedSongsListタブ" do
-    before do
-      tab = page.find "##{parent_container_name}UserLikedSongsTab"
-      tab.click
-    end
+  # describe "UserLikedSongsListタブ" do
+  #   before do
+  #     tab = page.find "##{parent_container_name}UserLikedSongsTab"
+  #     tab.click
+  #   end
 
-    it_behaves_like "SharedWidgets::UserLikedSongsList"
-  end
+  #   it_behaves_like "SharedWidgets::UserLikedSongsList"
+  # end
 
-  describe "UserLikedSongsListタブ" do
-    before do
-      tab = page.find "##{parent_container_name}UserHistorySongsTab"
-      tab.click
-    end
+  # describe "UserLikedSongsListタブ" do
+  #   before do
+  #     tab = page.find "##{parent_container_name}UserHistorySongsTab"
+  #     tab.click
+  #   end
 
-    it_behaves_like "SharedWidgets::UserHistorySongsList"
-  end
+  #   it_behaves_like "SharedWidgets::UserHistorySongsList"
+  # end
 end

@@ -10,25 +10,42 @@ RSpec.shared_examples "SharedWidgets::AllSongsList" do
     context "クリックした時" do
       before do
         click_song_tab
-        open_modal if defined? open_modal
-        open_all_songs_list_tab if defined? open_all_songs_list_tab
       end
 
-      it "song詳細画面が表示される" do
-        expect(current_path).to eq song_path(song.id)
+      describe "AllSongsListウィジェット外のテスト" do
+        it "次の曲のリンクが表示されている" do
+          next_song_link_container = page.find '#nextSongLink'
+          expect(next_song_link_container).to have_link(
+            song.decorate.next_song_in_all_songs_list(parent_class: all_songs_list_parent_class).
+            decorate.title_with(composer: true, composition: true)
+          )
+        end
       end
 
-      it "遷移後、クリックしたsongタブが表示された状態になっている" do
-        expect(page).to have_link song.title
-      end
+      describe "AllSongsListウィジェット内のテスト" do
+        before do
+          open_modal if defined? open_modal
+          open_all_songs_list_tab if defined? open_all_songs_list_tab
+        end
 
-      it "遷移後、クリックしたsongタブが .border-left-blue classを持っている" do
-        expect(page.find_link(song.title)).to match_css ".border-left-blue"
+        it "song詳細画面が表示される" do
+          expect(current_path).to eq song_path(song.id)
+        end
+
+        it "遷移後、クリックしたsongタブが表示された状態になっている" do
+          expect(page).to have_link song.title
+        end
+
+        it "遷移後、クリックしたsongタブが .border-left-blue classを持っている" do
+          expect(page.find_link(song.title)).to match_css ".border-left-blue"
+        end
       end
     end
   end
 
   describe "composer_songs_list" do
+    let(:all_songs_list_parent_class) { Composer }
+
     def click_composer_tab
       page.find_link(composer.name.titleize).click
     end
@@ -85,6 +102,8 @@ RSpec.shared_examples "SharedWidgets::AllSongsList" do
   end
 
   describe "composition_songs_list" do
+    let(:all_songs_list_parent_class) { Composition }
+
     def click_composition_tab
       page.find_link(composition.name.titleize).click
     end

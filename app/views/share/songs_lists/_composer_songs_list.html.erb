@@ -1,10 +1,10 @@
 <% selected_song ||= nil %>
-<% Composer.all.each do |composer| %>
+<% Composer.order(:name).each do |composer| %>
   <% composer_collapse_id = 
       all_songs_list_collapse_id(
         parent_id: composer.id, is_parent_composer: true
       )
-  %>
+    %>
   <% composer_collapse_condition = selected_song&.composer == composer %>
   <a class="list-group-item list-group-item-action border-left-thick
             border-left-blue rounded-left mb-1
@@ -19,7 +19,7 @@
        class="collapse mt-1 mb-4 ml-2
               <%= "show" if composer_collapse_condition %>"
   >
-    <% composer.compositions.each do |composition| %>
+    <% composer.compositions.order(:name).each do |composition| %>
       <% composition_collapse_id = 
           all_songs_list_collapse_id(
             parent_id: composer.id, child_id: composition.id,
@@ -40,11 +40,11 @@
            class="collapse mt-1 mb-4 ml-2
            <%= "show" if composer_collapse_condition && composition_collapse_condition %>"
       >
-        <% composer.songs.where(composition_id: composition.id).each do |song| %>
-          <%= link_to song_path(song.id, all_songs_list_parent: "composer"),
-                      class: "list-group-item list-group-item-action 
-                              border-left-thick
-                              #{"border-left-blue" if selected_song == song}" do %>
+        <% composer.songs.where(composition_id: composition.id).order(:id).each do |song| %>
+          <%= link_to song_path(song.id, all_songs_list_parent_class: Composer),
+                      class: "list-group-item list-group-item-action " \
+                              "border-left-thick " \
+                              "#{"border-left-blue" if selected_song == song} " do %>
             <%= song.title %>
           <% end %>
         <% end %>

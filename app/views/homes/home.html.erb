@@ -1,3 +1,15 @@
-<div class="jumbotron">
+<div id="homeSentence" class="jumbotron">
   <h1>Home</h1>
+  <p>このアプリでは、クラシック曲を検索して聴くことができます。</p>
+  <p>
+    PCやタブレットの方は、画面左の<strong>「一覧」</strong>から、
+    スマートフォンの方は、画面上の<strong>「曲を探す」</strong>から曲を検索できます。
+  </p>
+  <p>
+    曲が多くて選べない方は、
+    <%= link_to "ランダムな曲", song_path(@random_song.id, all_songs_list_parent_class: Composer) %>
+    を選ぶこともできます。
+  </p>
 </div>
+<%= link_to "アカウント情報変更", edit_user_registration_path %>
+<%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
