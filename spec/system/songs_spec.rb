@@ -99,5 +99,32 @@ RSpec.describe "Songs", type: :system do
         end
       end
     end
+
+    describe "Google::Apis::ClientErrorハンドリングテスト" do
+      let(:error) { Google::Apis::ClientError.new(a: "b") }
+      let(:reason) { "invalidParameter" }
+      let(:status_code) { 400 }
+
+      before do
+        allow_any_instance_of(SongsController).to receive(:get_videos).
+          and_raise(error)
+        allow(error).to receive(:body).
+          and_return(Apis::Youtube.new.error_body_mock(reason: reason, code: status_code))
+        visit song_path(song.id)
+      end
+
+      it "画面表示後、ステータスコードとエラーの理由が表示されている" do
+        expect(page).to have_content "#{status_code}: #{reason}"
+      end
+
+      context "エラー理由が、quotaExceeded(割り当て超過エラー)だった場合" do
+        let(:reason) { "quotaExceeded" }
+        let(:status_code) { 403 }
+
+        it "画面表示後、youtube data apiの割り当てが超過した旨が表示されている" do
+          expect(page).to have_content "Youtube Data Apiの1日の割り当て上限を超えました"
+        end
+      end
+    end
   end
 end

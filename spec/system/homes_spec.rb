@@ -10,6 +10,7 @@ RSpec.describe "Homes", type: :system do
 
     before do
       allow_any_instance_of(HomesController).to receive(:rand).and_return(random_song_i)
+      allow_get_youtube_videos
       visit root_path
     end
 
@@ -37,6 +38,6 @@ RSpec.describe "Homes", type: :system do
       expect(current_path).to eq new_user_session_path
     end
 
-    # it_behaves_like "Layouts::SongsLists"
+    it_behaves_like "Layouts::SongsLists"
   end
 end

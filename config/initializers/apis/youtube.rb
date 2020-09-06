@@ -11,7 +11,7 @@ module Apis
     def search_videos(**options)
       opt = {
         type: 'video',
-        max_results: 3,
+        max_results: 20,
       }.merge(options)
       get_service.list_searches(:id, opt)
     end
@@ -45,6 +45,24 @@ module Apis
         :page_info => { :results_per_page => 3, :total_results => 1000000 },
         :region_code => "JP",
       }
+    end
+
+    def error_body_mock(reason: "invalidParameter", code: 400)
+      {
+        "error": {
+          "errors": [
+            {
+              "domain": "global",
+              "reason": reason,
+              "message": "Invalid string value: 'asdf'. Allowed values: [mostpopular]",
+              "locationType": "parameter",
+              "location": "chart",
+            },
+          ],
+          "code": code,
+          "message": "Invalid string value: 'asdf'. Allowed values: [mostpopular]",
+        },
+      }.to_json
     end
   end
 end
