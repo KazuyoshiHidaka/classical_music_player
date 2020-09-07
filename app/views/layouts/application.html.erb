@@ -13,7 +13,7 @@
   <body>
     <div class="container-fluid">
       <div class="row">
-        <%= render 'layouts/songs_lists' %>
+        <div class="offset-md-5 offset-lg-4"></div>
         <div class="col pt-3">
           <%= render 'layouts/flash' %>
           <%= render 'layouts/modal_buttons' %>
@@ -21,5 +21,6 @@
         </div>
       </div>
     </div>
+    <%= render 'layouts/songs_lists' %>
   </body>
 </html>
