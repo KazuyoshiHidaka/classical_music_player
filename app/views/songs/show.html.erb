@@ -16,9 +16,9 @@
     <div>
       <h4>
         <%= @song.decorate.title_with(composer: true, composition: true) %>
-        <i class="material-icons" type="submit">
+        <%# <i class="material-icons" type="submit">
           favorite_border
-        </i>
+        </i> %>
       </h4>
     </div>
     <% next_song = @song.decorate.next_song_in_all_songs_list(parent_class: @all_songs_list_parent_class) %>
