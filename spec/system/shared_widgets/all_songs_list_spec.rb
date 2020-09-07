@@ -63,7 +63,6 @@ RSpec.shared_examples "SharedWidgets::AllSongsList" do
             parent_id: composer.id, child_id: composition.id, is_parent_composer: true
           )
         }"
-      allow_get_youtube_videos
       page.find(id).find_link(song.title).click
     end
 
@@ -121,7 +120,6 @@ RSpec.shared_examples "SharedWidgets::AllSongsList" do
             parent_id: composition.id, child_id: composer.id, is_parent_composition: true
           )
         }"
-      allow_get_youtube_videos
       page.find(id).find_link(song.title).click
     end
 

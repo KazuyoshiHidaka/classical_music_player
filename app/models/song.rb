@@ -1,6 +1,8 @@
 class Song < ApplicationRecord
   belongs_to :composer
   belongs_to :composition
+  has_one :youtube_search_list, class_name: "SongYoutubeSearchList",
+                                foreign_key: "song_id"
 
   validates :title, presence: true
 

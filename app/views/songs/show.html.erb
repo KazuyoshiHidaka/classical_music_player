@@ -30,10 +30,10 @@
         <% end %>
       </div>
     <% end %>
-    <% if @videos %>
+    <% if @video_ids %>
       <%= render partial: 'youtube_video',
-               collection: @videos[:items],
-               as: :item
+                 collection: @video_ids,
+                 as: :video_id
       %>
     <% end %>
   </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_06_072258) do
+ActiveRecord::Schema.define(version: 2020_09_07_072747) do
   create_table "composers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -39,6 +39,14 @@ ActiveRecord::Schema.define(version: 2020_09_06_072258) do
     t.bigint "setting_classification_id"
     t.index ["description"], name: "index_settings_on_description", unique: true
     t.index ["setting_classification_id"], name: "index_settings_on_setting_classification_id"
+  end
+
+  create_table "song_youtube_search_lists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "song_id"
+    t.text "result_video_ids", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["song_id"], name: "index_song_youtube_search_lists_on_song_id", unique: true
   end
 
   create_table "songs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -75,4 +83,6 @@ ActiveRecord::Schema.define(version: 2020_09_06_072258) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "song_youtube_search_lists", "songs"
 end
