@@ -13,7 +13,7 @@ module Apis
         type: 'video',
         max_results: 20,
       }.merge(options)
-      get_service.list_searches(:id, opt)
+      get_service.list_searches(:id, opt).to_h
     end
 
     def mock_video_ids
