@@ -41,6 +41,22 @@ RSpec.shared_examples "SharedWidgets::AllSongsList" do
     end
   end
 
+  context "ログアウト状態の時" do
+    let(:user) { create(:user) }
+
+    before do
+      login(user: user)
+      sign_out user
+      visit current_path
+      open_modal if defined? open_modal
+      open_all_songs_list_tab if defined? open_all_songs_list_tab
+    end
+
+    it "cachedAllSongsListが表示されている" do
+      expect(page).to have_selector "#cachedAllSongsList"
+    end
+  end
+
   describe "composer_songs_list" do
     let(:all_songs_list_parent_class) { Composer }
 

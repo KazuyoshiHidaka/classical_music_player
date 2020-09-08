@@ -1,8 +1,10 @@
 <% cache render_async_cache_key("cached_all_songs_list"), skip_digest: true do %>
-  <p class="text-muted mb-0">Composers</p>
-  <%= render 'share/songs_lists/composer_songs_list' %>
-  <div class="mb-5"></div>
-  <p class="text-muted mb-0">Compositions</p>
-  <%= render 'share/songs_lists/composition_songs_list' %>
-  <div class="mb-5"></div>
+  <div id="cachedAllSongsList">
+    <p class="text-muted mb-0">Composers</p>
+    <%= render 'share/songs_lists/composer_songs_list' %>
+    <div class="mb-5"></div>
+    <p class="text-muted mb-0">Compositions</p>
+    <%= render 'share/songs_lists/composition_songs_list' %>
+    <div class="mb-5"></div>
+  </div>
 <% end %>
