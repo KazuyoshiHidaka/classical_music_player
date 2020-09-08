@@ -34,6 +34,23 @@ RSpec.describe "Songs", type: :system do
       expect(page).to have_link "ホーム", href: root_path
     end
 
+    context "songがyoutube_search_listを持っていなかった場合" do
+      let!(:song) { create(:song) }
+
+      it "動画データがない旨のメッセージが表示される" do
+        expect(page).to have_content "動画データがありません"
+      end
+
+      it "サンプルの動画が表示される" do
+        video_ids = Apis::Youtube.new.mock_video_ids
+        aggregate_failures do
+          video_ids.each do |id|
+            expect(page).to have_selector "iframe[src^='https://www.youtube.com/embed/#{id}']"
+          end
+        end
+      end
+    end
+
     it_behaves_like "Layouts::SongsLists"
 
     shared_examples "UserSettings" do

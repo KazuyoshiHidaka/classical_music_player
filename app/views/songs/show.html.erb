@@ -30,12 +30,10 @@
         <% end %>
       </div>
     <% end %>
-    <% if @video_ids %>
-      <%= render partial: 'youtube_video',
-                 collection: @video_ids,
-                 as: :video_id
-      %>
-    <% end %>
+    <%= render partial: 'youtube_video',
+                collection: @video_ids,
+                as: :video_id
+    %>
   </div>
   <div class="col-4 d-none d-lg-block position-fixed overflow-auto h-100" style="right: 0;">
     <div class="bg-light p-3">
