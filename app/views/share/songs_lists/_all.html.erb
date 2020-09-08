@@ -1,14 +1,16 @@
 <% selected_song ||= nil %>
 <% parent_class ||= nil %>
-<div id="allSongsList">
-  <p class="text-muted mb-0">Composers</em>
-  <% cache do %>
-    <%= render 'share/songs_lists/composer_songs_list',
-             selected_song: parent_class == Composer ? selected_song : nil %>
+<% if selected_song && parent_class %>
+  <% selected_song_link_id = 
+      selected_song.decorate.all_songs_list_link_id(parent_class: parent_class) %>
+<% end %>
+<div id="allSongsList" data-selected-song-link="<%= selected_song_link_id %>">
+  <% cache "all_songs_list" do %>
+    <p class="text-muted mb-0">Composers</p>
+    <%= render 'share/songs_lists/composer_songs_list' %>
     <div class="mb-5"></div>
-    <p class="text-muted mb-0">Compositions</em>
-    <%= render 'share/songs_lists/composition_songs_list',
-             selected_song: parent_class == Composition ? selected_song : nil %>
+    <p class="text-muted mb-0">Compositions</p>
+    <%= render 'share/songs_lists/composition_songs_list' %>
     <div class="mb-5"></div>
   <% end %>
 </div>
