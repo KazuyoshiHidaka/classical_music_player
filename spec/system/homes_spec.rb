@@ -10,7 +10,6 @@ RSpec.describe "Homes", type: :system do
 
     before do
       allow_any_instance_of(HomesController).to receive(:rand).and_return(random_song_i)
-      allow_get_youtube_videos
       visit root_path
     end
 

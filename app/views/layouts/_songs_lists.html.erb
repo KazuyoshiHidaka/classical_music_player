@@ -3,12 +3,11 @@
 <% selected_song = Song.find_by(id: selected_song_id) %>
 <div id="songsListsSidebar" 
          class="d-none d-md-block col-md-5 col-lg-4 col-xl-3 bg-light pt-3
-                position-fixed h-100 overflow-auto">
+                position-fixed h-100 overflow-auto" style="top: 0; left: 0;">
   <%= render 'share/songs_lists/lists', selected_song: selected_song,
                                         all_songs_list_parent_class: @all_songs_list_parent_class,
                                         parent_container_name: "sidebar" %>
 </div>
-<div class="offset-md-5 offset-lg-4"></div>
 <%= render 'share/modal_base', id: "songsListsModal", title: "曲を探す" do %>
   <%= render 'share/songs_lists/lists', selected_song: selected_song, 
                                         all_songs_list_parent_class: @all_songs_list_parent_class,

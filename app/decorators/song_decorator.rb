@@ -14,6 +14,14 @@ class SongDecorator < ApplicationDecorator
     words.join(' ')
   end
 
+  def all_songs_list_link_id(parent_class:)
+    if parent_class != Composer && parent_class != Composition
+      raise ArgumentError, ":parent_classにはComposerかCompositionを与えてください"
+    end
+
+    "#{parent_class.to_s.camelize}SongsListSong#{model.id}Link"
+  end
+
   def next_song_in_all_songs_list(parent_class:)
     return unless parent_class
     if parent_class != Composer && parent_class != Composition

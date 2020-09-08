@@ -7,22 +7,20 @@ RSpec.describe "Songs", type: :system do
   before { login(user: user) }
 
   describe "/songs/:id" do
-    let!(:song) { create(:song) }
+    let!(:song) { song_youtube_search_list.song }
+    let!(:song_youtube_search_list) { create(:song_youtube_search_list) }
     let!(:setting) { create(:setting) }
     let!(:setting_with_same_classification) do
       create(:setting, setting_classification: setting.setting_classification)
     end
 
     before do
-      allow_get_youtube_videos
       visit song_path(song.id)
     end
 
     it "期待するyoutubeの動画が表示されている" do
-      items = Apis::Youtube.new.hash_mock_response_search_videos[:items]
       aggregate_failures do
-        items.each do |item|
-          id = item.dig(:id, :video_id)
+        song.youtube_search_list.video_ids.each do |id|
           expect(page).to have_selector "iframe[src^='https://www.youtube.com/embed/#{id}']"
         end
       end
@@ -34,6 +32,23 @@ RSpec.describe "Songs", type: :system do
 
     it "homeへのリンクが表示されている" do
       expect(page).to have_link "ホーム", href: root_path
+    end
+
+    context "songがyoutube_search_listを持っていなかった場合" do
+      let!(:song) { create(:song) }
+
+      it "動画データがない旨のメッセージが表示される" do
+        expect(page).to have_content "動画データがありません"
+      end
+
+      it "サンプルの動画が表示される" do
+        video_ids = Apis::Youtube.new.mock_video_ids
+        aggregate_failures do
+          video_ids.each do |id|
+            expect(page).to have_selector "iframe[src^='https://www.youtube.com/embed/#{id}']"
+          end
+        end
+      end
     end
 
     it_behaves_like "Layouts::SongsLists"
@@ -96,33 +111,6 @@ RSpec.describe "Songs", type: :system do
           end
 
           it_behaves_like "UserSettings"
-        end
-      end
-    end
-
-    describe "Google::Apis::ClientErrorハンドリングテスト" do
-      let(:error) { Google::Apis::ClientError.new(a: "b") }
-      let(:reason) { "invalidParameter" }
-      let(:status_code) { 400 }
-
-      before do
-        allow_any_instance_of(SongsController).to receive(:get_videos).
-          and_raise(error)
-        allow(error).to receive(:body).
-          and_return(Apis::Youtube.new.error_body_mock(reason: reason, code: status_code))
-        visit song_path(song.id)
-      end
-
-      it "画面表示後、ステータスコードとエラーの理由が表示されている" do
-        expect(page).to have_content "#{status_code}: #{reason}"
-      end
-
-      context "エラー理由が、quotaExceeded(割り当て超過エラー)だった場合" do
-        let(:reason) { "quotaExceeded" }
-        let(:status_code) { 403 }
-
-        it "画面表示後、youtube data apiの割り当てが超過した旨が表示されている" do
-          expect(page).to have_content "Youtube Data Apiの1日の割り当て上限を超えました"
         end
       end
     end

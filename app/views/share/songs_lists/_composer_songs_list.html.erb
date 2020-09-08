@@ -1,50 +1,39 @@
-<% selected_song ||= nil %>
 <% Composer.order(:name).each do |composer| %>
   <% composer_collapse_id = 
       all_songs_list_collapse_id(
         parent_id: composer.id, is_parent_composer: true
       )
-    %>
-  <% composer_collapse_condition = selected_song&.composer == composer %>
+  %>
   <a class="list-group-item list-group-item-action border-left-thick
-            border-left-blue rounded-left mb-1
-            <%= "collapsed" unless composer_collapse_condition %>"
+            border-left-blue rounded-left mb-1 collapsed"
      data-toggle="collapse" href="#<%= composer_collapse_id %>"
      role="button" aria-expanded="false"
      aria-controls="<%= composer_collapse_id %>"
   >
     <%= composer.name.titleize %>
   </a>
-  <div id="<%= composer_collapse_id %>"
-       class="collapse mt-1 mb-4 ml-2
-              <%= "show" if composer_collapse_condition %>"
-  >
+  <div id="<%= composer_collapse_id %>" class="collapse mt-1 mb-4 ml-2">
     <% composer.compositions.order(:name).each do |composition| %>
       <% composition_collapse_id = 
-          all_songs_list_collapse_id(
-            parent_id: composer.id, child_id: composition.id,
-            is_parent_composer: true
-          ) 
+        all_songs_list_collapse_id(
+          parent_id: composer.id, child_id: composition.id,
+          is_parent_composer: true
+        )
       %>
-      <% composition_collapse_condition = selected_song&.composition == composition %>
       <a class="list-group-item list-group-item-action border-left-thick
-                border-left-teal rounded-left mb-1
-                <%= "collapsed" if !composer_collapse_condition || !composition_collapse_condition %>"
+                border-left-teal rounded-left mb-1 collapsed"
          data-toggle="collapse" href="#<%= composition_collapse_id %>"
          role="button" aria-expanded="false"
          aria-controls="<%= composition_collapse_id %>"
       >
         <%= composition.name.titleize %>
       </a>
-      <div id="<%= composition_collapse_id %>"
-           class="collapse mt-1 mb-4 ml-2
-           <%= "show" if composer_collapse_condition && composition_collapse_condition %>"
-      >
+      <div id="<%= composition_collapse_id %>" class="collapse mt-1 mb-4 ml-2">
         <% composer.songs.where(composition_id: composition.id).order(:id).each do |song| %>
           <%= link_to song_path(song.id, all_songs_list_parent_class: Composer),
+                      id: song.decorate.all_songs_list_link_id(parent_class: Composer),
                       class: "list-group-item list-group-item-action " \
-                              "border-left-thick " \
-                              "#{"border-left-blue" if selected_song == song} " do %>
+                              "border-left-thick" do %>
             <%= song.title %>
           <% end %>
         <% end %>

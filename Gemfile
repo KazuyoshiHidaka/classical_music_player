@@ -34,8 +34,8 @@ gem 'devise'
 gem 'devise-i18n'
 gem 'devise-i18n-views'
 gem 'devise-bootstrap-views', '~> 1.0'
-
 gem 'draper'
+gem 'render_async'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -60,6 +60,10 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem "rspec_junit_formatter"
+end
+
+group :production do
+  gem 'dalli'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

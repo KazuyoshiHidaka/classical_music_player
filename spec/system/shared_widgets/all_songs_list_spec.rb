@@ -28,16 +28,14 @@ RSpec.shared_examples "SharedWidgets::AllSongsList" do
           open_all_songs_list_tab if defined? open_all_songs_list_tab
         end
 
+        let(:list) { page.find "#allSongsList" }
+
         it "song詳細画面が表示される" do
           expect(current_path).to eq song_path(song.id)
         end
 
-        it "遷移後、クリックしたsongタブが表示された状態になっている" do
-          expect(page).to have_link song.title
-        end
-
         it "遷移後、クリックしたsongタブが .border-left-blue classを持っている" do
-          expect(page.find_link(song.title)).to match_css ".border-left-blue"
+          expect(list).to have_link song.title, class: "border-left-blue"
         end
       end
     end
@@ -65,7 +63,6 @@ RSpec.shared_examples "SharedWidgets::AllSongsList" do
             parent_id: composer.id, child_id: composition.id, is_parent_composer: true
           )
         }"
-      allow_get_youtube_videos
       page.find(id).find_link(song.title).click
     end
 
@@ -123,7 +120,6 @@ RSpec.shared_examples "SharedWidgets::AllSongsList" do
             parent_id: composition.id, child_id: composer.id, is_parent_composition: true
           )
         }"
-      allow_get_youtube_videos
       page.find(id).find_link(song.title).click
     end
 

@@ -59,6 +59,44 @@ RSpec.describe SongDecorator do
     end
   end
 
+  describe "#all_songs_list_link_id" do
+    subject { song.decorate.all_songs_list_link_id(parent_class: parent_class) }
+
+    let(:song) { create(:song) }
+
+    context ":parent_classを与えなかった場合" do
+      it "ArgumentErrorが発生する" do
+        expect { song.decorate.all_songs_list_link_id }.to(
+          raise_error ArgumentError
+        )
+      end
+    end
+
+    context "parent_class: nilを与えた場合" do
+      let(:parent_class) { nil }
+
+      it "ArgumentErrorが発生する" do
+        expect { subject }.to raise_error ArgumentError
+      end
+    end
+
+    context "parent_class: Composer,Composition以外の値を与えた場合" do
+      let(:parent_class) { Song }
+
+      it "ArgumentErrorが発生する" do
+        expect { subject }.to raise_error ArgumentError
+      end
+    end
+
+    context "parent_class: ComposerかCompositionを与えた場合" do
+      let(:parent_class) { Composer }
+
+      it "期待する文字列を返す" do
+        is_expected.to eq "ComposerSongsListSong#{song.id}Link"
+      end
+    end
+  end
+
   describe "#next_song_in_all_songs_list" do
     subject { song.decorate.next_song_in_all_songs_list(parent_class: parent_class) }
 

@@ -55,13 +55,14 @@ jobs:
           name: Define HEROKU_APP_NAME
           command: echo "export HEROKU_APP_NAME=cmp-${CIRCLE_BRANCH//_/-}-hk" >> $BASH_ENV
       - run:
-          name: Create Heroku app
+          name: Set Heroku app
           command: |
             if [ ! `heroku apps --json | jq ".[].name | select(. == \"$HEROKU_APP_NAME\")"` ]; then
-            heroku apps:create $HEROKU_APP_NAME --addons=jawsdb:kitefin; fi
-      - run:
-          name: Set Heroku App
-          command: heroku git:remote $HEROKU_APP_NAME
+              heroku apps:create $HEROKU_APP_NAME \
+              --addons jawsdb:kitefin,memcachedcloud; 
+            else
+              heroku git:remote $HEROKU_APP_NAME;
+            fi
       - run:
           name: Set Environment Variables
           command: |
