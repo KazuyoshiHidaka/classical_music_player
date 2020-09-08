@@ -1,10 +1,11 @@
-document.addEventListener('turbolinks:load', function () {
+
+document.addEventListener('cached-all-songs-list-load', function () {
   var songLinkId = $('#allSongsList').data('selected-song-link');
   if (!songLinkId) {
     return;
   }
   var sidebar = $('#songsListsSidebar');
-  openSongParentCollapses(songLinkId, sidebar, 'smooth');
+  openSongParentCollapses(songLinkId, sidebar);
 
   var modal = $('#songsListsModal');
   modal.one('shown.bs.modal', function () {
@@ -15,7 +16,6 @@ document.addEventListener('turbolinks:load', function () {
 function openSongParentCollapses(
   songLinkId,
   container,
-  scrollBehavior = 'auto',
 ) {
   var songLink = container.find(`#${songLinkId}`);
   var parentCollapses = songLink.parents('.collapse');
@@ -32,10 +32,11 @@ function openSongParentCollapses(
     collapseBtn.removeClass('collapsed');
   });
   $(parentCollapses[0]).one('shown.bs.collapse', () => {
-    songLink[0].scrollIntoView({
-      behavior: scrollBehavior,
-      block: 'center',
-    });
+    setTimeout(() => {
+      songLink[0].scrollIntoView({
+        block: 'center',
+      });
+    }, 500);
   });
   parentCollapses.collapse();
   songLink.addClass('border-left-blue');

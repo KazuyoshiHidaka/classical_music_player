@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: 'homes#home'
+  get :cached_all_songs_list, controller: :homes
+
   resources :songs, only: %i(show)
   resources :user_settings, only: %i(create)
 end

@@ -5,12 +5,11 @@
       selected_song.decorate.all_songs_list_link_id(parent_class: parent_class) %>
 <% end %>
 <div id="allSongsList" data-selected-song-link="<%= selected_song_link_id %>">
-  <% cache "all_songs_list" do %>
-    <p class="text-muted mb-0">Composers</p>
-    <%= render 'share/songs_lists/composer_songs_list' %>
-    <div class="mb-5"></div>
-    <p class="text-muted mb-0">Compositions</p>
-    <%= render 'share/songs_lists/composition_songs_list' %>
-    <div class="mb-5"></div>
+  <%= render_async cached_all_songs_list_path, event_name: "cached-all-songs-list-load" do %>
+    <div class="text-center my-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
   <% end %>
 </div>
