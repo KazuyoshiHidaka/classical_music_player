@@ -1,6 +1,8 @@
 class HomesController < ApplicationController
   def home
-    @random_song = Song.all[rand(Song.all.length)]
+    @random_song =
+      SongYoutubeSearchList.all[rand(SongYoutubeSearchList.all.length)]&.song
+    @random_song ||= Song.first
   end
 
   def cached_all_songs_list

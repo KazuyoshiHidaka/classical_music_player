@@ -5,11 +5,11 @@ RSpec.describe "Homes", type: :system do
   before { login }
 
   describe "#home" do
-    let!(:song) { create(:song) }
-    let(:random_song_i) { 0 }
+    let!(:song) { song_youtube_search_list.song }
+    let!(:song_youtube_search_list) { create(:song_youtube_search_list) }
+    let!(:song_with_no_youtube_list) { create(:song) }
 
     before do
-      allow_any_instance_of(HomesController).to receive(:rand).and_return(random_song_i)
       visit root_path
     end
 
@@ -17,14 +17,27 @@ RSpec.describe "Homes", type: :system do
       expect(page).to have_selector "#homeSentence"
     end
 
-    it "導入文の中に、ランダムな曲のリンクが機能している" do
-      home_sentence = find "#homeSentence"
-      random_song = Song.all[random_song_i]
-      home_sentence.find_link(
-        "ランダムな曲",
-        href: song_path(random_song.id, all_songs_list_parent_class: Composer)
-      ).click
-      expect(current_path).to eq song_path(random_song.id)
+    describe "ランダムな曲" do
+      context "YoutubeSearchListを持つSongと、持たないSongがある場合" do
+        it "YoutubeSearchListを持つSongが優先的に選ばれる" do
+          link = page.find_link("ランダムな曲")
+          expect(link[:href].include?(song_path(song.id))).to be true
+        end
+      end
+
+      context "YoutubeSearchListを持たないSongしかない場合" do
+        it "Song.firstが選ばれる" do
+          link = page.find_link("ランダムな曲")
+          expect(link[:href].include?(song_path(Song.first))).to be true
+        end
+      end
+
+      it "導入文の中に、ランダムな曲のリンクが機能している" do
+        home_sentence = find "#homeSentence"
+        link = home_sentence.find_link("ランダムな曲")
+        link.click
+        expect(current_path).to eq song_path(song.id)
+      end
     end
 
     it "アカウント情報変更リンクが機能している" do
