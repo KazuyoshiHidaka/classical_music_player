@@ -1,4 +1,4 @@
-import { userSettingClassificationAction } from './user_setting_actions/setting_classification';
+import {userSettingClassificationAction} from './user_setting_actions/setting_classification';
 
 window.autoplayFirstVideo = false;
 window.onYouTubeIframeAPIReady = function () {
@@ -9,7 +9,10 @@ window.onYouTubeIframeAPIReady = function () {
     var playerEvents = {
       onStateChange: onPlayerStateChange,
     };
-    var playerVars = {};
+    var playerVars = {
+      playsinline: 1,
+      modestbranding: 1,
+    };
     if (i == 0 && window.autoplayFirstVideo) {
       window.autoplayFirstVideo = false;
       playerEvents.onReady = onPlayerReady;
