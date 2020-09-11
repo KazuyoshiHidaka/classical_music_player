@@ -17,6 +17,10 @@ module Apis
       get_service.list_searches(:id, opt).to_h
     end
 
+    def search_video_ids(**options)
+      search_videos(options)[:items].pluck(:id).pluck(:video_id)
+    end
+
     def mock_video_ids
       ["wygy721nzRc", "Jn09UdSb3aA", "Jz1gvBluvc8"]
     end
@@ -47,24 +51,6 @@ module Apis
         :page_info => { :results_per_page => 3, :total_results => 1000000 },
         :region_code => "JP",
       }
-    end
-
-    def error_body_mock(reason: "invalidParameter", code: 400)
-      {
-        "error": {
-          "errors": [
-            {
-              "domain": "global",
-              "reason": reason,
-              "message": "Invalid string value: 'asdf'. Allowed values: [mostpopular]",
-              "locationType": "parameter",
-              "location": "chart",
-            },
-          ],
-          "code": code,
-          "message": "Invalid string value: 'asdf'. Allowed values: [mostpopular]",
-        },
-      }.to_json
     end
   end
 end

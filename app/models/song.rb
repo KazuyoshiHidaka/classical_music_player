@@ -12,4 +12,16 @@ class Song < ApplicationRecord
     i_next -= collection.length if i_next >= collection.length
     collection.find(collection.ids[i_next])
   end
+
+  def search_and_save_youtube_video_ids
+    video_ids = Apis::Youtube.new.search_video_ids(
+      q: decorate.title_with(composer: true, composition: true)
+    )
+
+    if youtube_search_list
+      youtube_search_list.update(result_video_ids: video_ids)
+    else
+      create_youtube_search_list(result_video_ids: video_ids)
+    end
+  end
 end
