@@ -12,6 +12,7 @@ module Apis
       opt = {
         type: 'video',
         max_results: 20,
+        video_embeddable: true,
       }.merge(options)
       get_service.list_searches(:id, opt).to_h
     end
