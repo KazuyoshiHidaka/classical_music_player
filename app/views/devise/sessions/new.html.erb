@@ -1,3 +1,10 @@
+<%# Custom View %>
+<p class="h5 mb-4"><strong>ログインしない場合</strong></p>
+<%= link_to "ログインしないで利用する", users_sign_in_guest_path,
+            method: :post, class: "btn btn-success" %>
+<div class="border-top my-5"></div>
+<%# / Custom View %>
+
 <h1><%= t('.sign_in') %></h1>
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="form-group">
@@ -20,8 +27,4 @@
     <%= f.submit  t('.sign_in'), class: 'btn btn-primary' %>
   </div>
 <% end %>
-<%# Custom View %>
-<%= link_to "Log in as guest user", users_sign_in_guest_path,
-            method: :post, class: "btn btn-success mb-2" %>
-<%# / Custom View %>
 <%= render 'devise/shared/links' %>
