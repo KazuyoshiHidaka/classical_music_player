@@ -35,6 +35,7 @@ gem 'devise-i18n'
 gem 'devise-i18n-views'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'draper'
+gem 'dotenv-rails'
 gem 'render_async'
 
 group :development, :test do

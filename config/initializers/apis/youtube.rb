@@ -4,7 +4,7 @@ module Apis
   class Youtube
     def get_service
       service = Google::Apis::YoutubeV3::YouTubeService.new
-      service.key = ENV.fetch('YOUTUBE_API_KEY')
+      service.key = Rails.application.credentials.youtube_api_key
       service
     end
 
