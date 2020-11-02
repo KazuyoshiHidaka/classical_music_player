@@ -2,8 +2,6 @@ require 'rails_helper'
 require 'system/layouts/songs_lists_spec'
 
 RSpec.describe "Songs", type: :system do
-  include ApplicationHelper
-
   let(:user) { create(:user) }
 
   before { login(user: user) }
