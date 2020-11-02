@@ -13,6 +13,10 @@ RSpec.describe "Homes", type: :system do
       visit root_path
     end
 
+    it "ページのタイトルが期待する値になっている" do
+      expect(page).to have_title app_title(page_title: 'Home')
+    end
+
     it "導入文が表示されている" do
       expect(page).to have_selector "#homeSentence"
     end

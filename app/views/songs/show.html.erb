@@ -1,5 +1,7 @@
 <% user_settings_widget = render 'share/user_settings' %>
-<% content_for :songs_list_selected_song_id, "#{@song.id}" %>
+<% content_for :page_title, 
+                @song.decorate.title_with(composer: true, composition: true)
+%>
 <% content_for :additional_modal_buttons do %>
   <button type="button" class="btn btn-outline-primary d-lg-none"
                 data-toggle="modal" data-target="#userSettingsModal">

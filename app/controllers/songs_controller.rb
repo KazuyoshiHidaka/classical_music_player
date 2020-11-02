@@ -1,6 +1,7 @@
 class SongsController < ApplicationController
   def show
     @song = Song.find_by(id: params[:id])
+    @all_songs_list_selected_song = @song
     @all_songs_list_parent_class = params[:all_songs_list_parent_class]&.constantize
     @video_ids = if @song.youtube_search_list
                    @song.youtube_search_list.video_ids

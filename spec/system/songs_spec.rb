@@ -2,6 +2,8 @@ require 'rails_helper'
 require 'system/layouts/songs_lists_spec'
 
 RSpec.describe "Songs", type: :system do
+  include ApplicationHelper
+
   let(:user) { create(:user) }
 
   before { login(user: user) }
@@ -16,6 +18,14 @@ RSpec.describe "Songs", type: :system do
 
     before do
       visit song_path(song.id)
+    end
+
+    it "ページのタイトルが期待する値になっている" do
+      expect(page).to have_title(
+        app_title(
+          page_title: song.decorate.title_with(composer: true, composition: true)
+        )
+      )
     end
 
     it "期待するyoutubeの動画が表示されている" do
