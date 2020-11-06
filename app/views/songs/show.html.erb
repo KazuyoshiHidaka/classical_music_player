@@ -1,3 +1,7 @@
+<div id="hello"><app /></div>
+<%
+=begin
+%>
 <% user_settings_widget = render 'share/user_settings' %>
 <% content_for :page_title, 
                 @song.decorate.title_with(composer: true, composition: true)
@@ -44,3 +48,6 @@
     </div>
   </div>
 </div>
+<%
+=end
+%>

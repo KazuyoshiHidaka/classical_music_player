@@ -13,6 +13,11 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body>
+    <%= yield %>
+  </body>
+<%
+=begin
+%>
     <div class="container-fluid">
       <div class="row">
         <div class="offset-md-5 offset-lg-4"></div>
@@ -26,4 +31,7 @@
     <%= render 'layouts/songs_lists' %>
   </body>
   <%= content_for :render_async %>
+<%
+=end
+%>
 </html>
